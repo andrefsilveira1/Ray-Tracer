@@ -1,13 +1,10 @@
+#ifndef BACKGROUND_H
+#define BACKGROUND_H
 
-using byte = unsigned char;
+#include <vector>
+using std::vector;
 
-struct RBGColor {
-    byte r;
-    byte g;
-    byte b;
-
-    RGBColor(byte mr, byte mg, byte mb): mr(r), mg(g), mb(b) {}
-};
+#include "common.h"
 
 class BackgroundColor {
   private:
@@ -22,13 +19,15 @@ class BackgroundColor {
     };
 
     /// Return the linearly interpolated color in [A;B], based on the parameter \f$0\leq t \leq 1.\f$
-    RGBColor lerp( const RGBColor &A, const RGBColor &B, float t ) const;
-
   public:
+    RGBColor lerp( const RGBColor &A, const RGBColor &B, float t ) const;
+    BackgroundColor() = default;
     /// Ctro receives a list of four colors, for each corner.
-    BackgroundColor( const std::vector< RGBColor >& colors );
+    BackgroundColor( const vector< RGBColor >& colors );
     /// Dtro
     ~BackgroundColor() { };
     /// Sample and returns a color, based on the raster coordinate.
     RGBColor sampleUV( real_type u, real_type v ) const;
 };
+
+#endif
