@@ -7,7 +7,7 @@
  */
 
 #include <iostream>
-#include <tinyxml2.h>
+#include "../ext/tinyxml2.h"
 using std::boolalpha;
 using std::cerr;
 using std::clog;
