@@ -14,17 +14,25 @@ class Color {
         real_type r;
         real_type g;
         real_type b;
+        real_type alpha = 1;
 
         Color() {}
         Color(const vector<real_type> &v) {
             r = v[0];
             g = v[1];
             b = v[2];
+            alpha = 1;
         }
         Color(real_type mr, real_type mg, real_type mb) : r(mr), g(mg), b(mb) {}
 
         Color operator * (const real_type t) const;
         Color operator + (const Color c) const;
+        real_type& operator [] (int index) {
+            if(index == 0) return r;
+            if(index == 1) return g;
+            if(index == 2) return b;
+            return alpha;
+        }
 
         static inline Color real_color(const vector<real_type> &v) {
             return Color(v);

@@ -20,24 +20,14 @@ class Film {
         mat = vector<vector<Color>>(mh, vector<Color>(mw));
       }
 
-      byte* get_byte_arr() {
-        byte * bytes = new byte[w * h * 3];
+      byte* get_byte_arr(int d) {
+        byte * bytes = new byte[w * h * d];
         int curr = 0;
-        for(int j = 0; j < h; j++) {
-          for(int i = 0; i < w; i++) {
-            bytes[curr] = mat[i][j].r*255;
-            bytes[curr + 1] = mat[i][j].g*255;
-            bytes[curr + 2] = mat[i][j].b*255; 
-
-            /* std::cout << "get_byte_arr (" << i << " " << j << "):" << std::endl;
-            std::cout << curr << " = " << (int)(mat[i][j].r*255) << std::endl;
-            std::cout << curr + 1 << " = " << (int)(mat[i][j].g*255) << std::endl;
-            std::cout << curr + 2 << " = " << (int)(mat[i][j].b*255) << std::endl; */
-
-            /* std::cout << curr << " = " << (int) bytes[curr] << std::endl;
-            std::cout << curr + 1 << " = " << (int) bytes[curr + 1] << std::endl;
-            std::cout << curr + 2 << " = " << (int) bytes[curr + 2] << std::endl; */
-            curr += 3;
+        for(int i = 0; i < h; i++) {
+          for(int j = 0; j < w; j++) {
+            for(int k = 0; k < d; k++) {
+              bytes[curr++] = mat[i][j][k] * 255;
+            }
           }
         }
         return bytes;

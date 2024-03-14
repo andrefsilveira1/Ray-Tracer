@@ -10,39 +10,44 @@ namespace rt3 {
 //=== Film Method Definitions
 Film::Film(const Point2i& resolution, const std::string& filename, image_type_e imgt)
     : m_full_resolution{ resolution }, m_filename{ filename }, m_image_type{ imgt } {
-  m_color_buffer_ptr = std::make_unique<ColorBuffer>(resolution.x, resolution.y);
+  m_color_buffer_ptr = std::make_unique<ColorBuffer>(resolution.y, resolution.x);
 }
 
 Film::~Film() = default;
 
 /// Add the color to image.
 void Film::add_sample(const Point2i& pixel_coord, const Color& pixel_color) {
+  /* std::cout << "Adding Sample: " << std::endl;
+  std::cout << pixel_coord.x << " " << pixel_coord.y << ": " << std::endl; */
+
   m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y] = Color(pixel_color);
 
-  std::cout << "Adding Sample: " << std::endl;
-  std::cout << pixel_coord.x << " " << pixel_coord.y << ": ";
-  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].r << " ";
+  /* std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].r << " ";
   std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].g << " ";
-  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].b << std::endl;
+  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].b << std::endl; */
 }
 
 /// Convert image to RGB, compute final pixel values, write image.
 void Film::write_image() const {
   // TODO: call the proper writing function, either PPM or PNG.
-  bool ok = false;
-  byte* bytes = m_color_buffer_ptr->get_byte_arr();
 
+  
+  bool ok = false;
   /* for(int i = 0; i < width()*height()*3; i++) {
     std::cout << i << " = " << (int) bytes[i] << std::endl;
   } */
 
+  std::cout << "Try to save file in " << m_filename << std::endl;
+  
   if(m_image_type == image_type_e::PNG) {
-    RT3_MESSAGE("PNG");
-    ok = save_png(bytes, height(), width(), 3, m_filename);
+    byte* bytes = m_color_buffer_ptr->get_byte_arr(4);
+    ok = save_png(bytes, width(), height(), 4, m_filename);
   } else if(m_image_type == image_type_e::PPM3) {
-    ok = save_ppm3(bytes, height(), width(), 3, m_filename);
+    byte* bytes = m_color_buffer_ptr->get_byte_arr(3);
+    ok = save_ppm3(bytes, width(), height(), 3, m_filename);
   } else if(m_image_type == image_type_e::PPM6) {
-    ok = save_ppm6(bytes, height(), width(), 3, m_filename);
+    byte* bytes = m_color_buffer_ptr->get_byte_arr(3);
+    ok = save_ppm6(bytes, width(), height(), 3, m_filename);
   }
 
   if(!ok) RT3_ERROR("Could not save the image.");

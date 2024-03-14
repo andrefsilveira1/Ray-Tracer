@@ -11,9 +11,9 @@ void render(Film *film, Background *bckg) {
   int h = film->height();
 
   /* std::cout << w << " ----- " << h << std::endl; */
-  for(int j = 0; j < h; j++) {
-    for(int i = 0; i < w; i++) {
-      Color c = bckg->sampleXYZ({float(i)/float(w), float(j)/float(h)});
+  for(int i = 0; i < h; i++) {
+    for(int j = 0; j < w; j++) {
+      Color c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
       //std::cout << i << " --- " << j << std::endl;
       /* std::cout << "(render) Color in (" << i << ", " << j << ") = " 
                 << c.r << " " << c.g << " " << c.b << std::endl; */
