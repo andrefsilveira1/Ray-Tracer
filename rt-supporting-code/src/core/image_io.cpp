@@ -69,12 +69,7 @@ bool save_png(unsigned char* data, size_t w, size_t h, size_t d, const std::stri
   // Encode from raw pixels to disk with a single function call
   // The image argument has width * height RGBA pixels or width * height * 4
   // bytes Encode the image
-
-  // unsigned error = lodepng::encode(file_name_, img, w, h);
-  std::vector<unsigned char> png;
-
-  unsigned error = lodepng::encode(png, img, w, h);
-  if(!error) lodepng::save_file(png, file_name_);
+  unsigned error = lodepng::encode(file_name_, img, w, h);
 
   // if there's an error, display it
   if (error != 0U) {
