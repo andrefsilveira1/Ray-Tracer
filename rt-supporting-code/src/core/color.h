@@ -34,6 +34,11 @@ class Color {
             for(int i = 0; i < 3; i++) v[i] /= 255.0;
             return real_color(v);
         }
+
+        
+        static inline Color lerp_color( const Color &A, const Color &B, float t ) {
+            return A*(1-t) + B*t;
+        }
 };
 
 }

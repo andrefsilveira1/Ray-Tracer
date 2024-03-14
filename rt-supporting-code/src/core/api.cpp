@@ -6,19 +6,21 @@
 
 namespace rt3 {
 
-void render(Film &film, Background &bckg) {
+void render(Film *film, Background *bckg) {
+  int w = film->width();
+  int h = film->height();
 
-  int w = film.width();
-  int h = film.height();
-
+  /* std::cout << w << " ----- " << h << std::endl; */
   for(int j = 0; j < h; j++) {
     for(int i = 0; i < w; i++) {
-      RT3_MESSAGE("abacate");
-      Color c = bckg.sampleXYZ({float(i)/float(w), float(j)/float(h)});
-      film.add_sample({i,j}, c);
+      Color c = bckg->sampleXYZ({float(i)/float(w), float(j)/float(h)});
+      //std::cout << i << " --- " << j << std::endl;
+      /* std::cout << "(render) Color in (" << i << ", " << j << ") = " 
+                << c.r << " " << c.g << " " << c.b << std::endl; */
+      film->add_sample({i,j}, c);
     }
   }
-  film.write_image();
+  film->write_image();
 }
 
 //=== API's static members declaration and initialization.
@@ -120,7 +122,7 @@ void API::world_end() {
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
-    render(*the_film, *the_background);  // TODO: This is the ray tracer's  main loop.
+    render(the_film.get(), the_background.get());  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end

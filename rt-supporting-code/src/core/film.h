@@ -21,17 +21,23 @@ class Film {
       }
 
       byte* get_byte_arr() {
-        std::cout << "oiiii" << std::endl;
-        RT3_MESSAGE("abacate");
         byte * bytes = new byte[w * h * 3];
+        int curr = 0;
         for(int j = 0; j < h; j++) {
           for(int i = 0; i < w; i++) {
-            std::cout << h*j + i << std::endl;
-            std::cout << h*j + i + 1<< std::endl;
-            std::cout << h*j + i + 2 << "\n" << std::endl;
-            bytes[h*j + i] = mat[i][j].r;
-            bytes[h*j + i + 1] = mat[i][j].g;
-            bytes[h*j + i + 2] = mat[i][j].b; 
+            bytes[curr] = mat[i][j].r*255;
+            bytes[curr + 1] = mat[i][j].g*255;
+            bytes[curr + 2] = mat[i][j].b*255; 
+
+            /* std::cout << "get_byte_arr (" << i << " " << j << "):" << std::endl;
+            std::cout << curr << " = " << (int)(mat[i][j].r*255) << std::endl;
+            std::cout << curr + 1 << " = " << (int)(mat[i][j].g*255) << std::endl;
+            std::cout << curr + 2 << " = " << (int)(mat[i][j].b*255) << std::endl; */
+
+            /* std::cout << curr << " = " << (int) bytes[curr] << std::endl;
+            std::cout << curr + 1 << " = " << (int) bytes[curr + 1] << std::endl;
+            std::cout << curr + 2 << " = " << (int) bytes[curr + 2] << std::endl; */
+            curr += 3;
           }
         }
         return bytes;
@@ -55,8 +61,8 @@ class Film {
     // TODO: Create the matrix (or vector) that will hold the image data.
     std::unique_ptr< ColorBuffer > m_color_buffer_ptr; //!< Reference to the color buffer (image) object.
 
-    int height() const { return m_full_resolution.x; }
-    int width() const { return m_full_resolution.y; }
+    int height() const { return m_full_resolution.y; }
+    int width() const { return m_full_resolution.x; }
   };
 
   // Factory pattern. It's not part of this class.

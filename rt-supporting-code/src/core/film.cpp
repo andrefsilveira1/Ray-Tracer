@@ -18,20 +18,31 @@ Film::~Film() = default;
 /// Add the color to image.
 void Film::add_sample(const Point2i& pixel_coord, const Color& pixel_color) {
   m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y] = Color(pixel_color);
+
+  std::cout << "Adding Sample: " << std::endl;
+  std::cout << pixel_coord.x << " " << pixel_coord.y << ": ";
+  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].r << " ";
+  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].g << " ";
+  std::cout << m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y].b << std::endl;
 }
 
 /// Convert image to RGB, compute final pixel values, write image.
 void Film::write_image() const {
   // TODO: call the proper writing function, either PPM or PNG.
   bool ok = false;
-  byte* byte_d = m_color_buffer_ptr->get_byte_arr();
-  
+  byte* bytes = m_color_buffer_ptr->get_byte_arr();
+
+  /* for(int i = 0; i < width()*height()*3; i++) {
+    std::cout << i << " = " << (int) bytes[i] << std::endl;
+  } */
+
   if(m_image_type == image_type_e::PNG) {
-    save_png(byte_d, height(), width(), 3, m_filename);
+    RT3_MESSAGE("PNG");
+    ok = save_png(bytes, height(), width(), 3, m_filename);
   } else if(m_image_type == image_type_e::PPM3) {
-    save_ppm3(byte_d, height(), width(), 3, m_filename);
+    ok = save_ppm3(bytes, height(), width(), 3, m_filename);
   } else if(m_image_type == image_type_e::PPM6) {
-    save_ppm6(byte_d, height(), width(), 3, m_filename);
+    ok = save_ppm6(bytes, height(), width(), 3, m_filename);
   }
 
   if(!ok) RT3_ERROR("Could not save the image.");
@@ -83,8 +94,15 @@ Film* create_film(const ParamSet& ps) {
   }
   std::cout << '\n';*/
 
-  //Film::image_type_e img_t = retrieve(ps, "img_type", Film::image_type_e::PNG);
+  std::string img_t_str = retrieve(ps, "img_type", std::string{"png"});
+
+  Film::image_type_e img_t = Film::image_type_e::PNG;
+  if(img_t_str == "ppm3") {
+    img_t = Film::image_type_e::PPM3;
+  } else if(img_t_str == "ppm6") {
+    img_t = Film::image_type_e::PPM6;
+  }
   // Note that the image type is fixed here. Must be read from ParamSet, though.
-  return new Film(Point2i{ xres, yres }, filename, Film::image_type_e::PNG);
+  return new Film(Point2i{ xres, yres }, filename, img_t);
 }
 }  // namespace rt3

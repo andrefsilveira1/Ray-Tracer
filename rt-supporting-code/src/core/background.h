@@ -30,7 +30,7 @@ public:
   Background(mapping_t mt = mapping_t::spherical) : mapping_type{ mt } { /* empty */ }
 
   virtual ~Background(){ /* empty */ };
-  [[nodiscard]] Color sampleXYZ(const Point2f& pixel_ndc) const {return Color();};
+  [[nodiscard]] virtual Color sampleXYZ(const Point2f& pixel_ndc) const = 0;
 };
 
 class BackgroundColor : public Background {
@@ -45,8 +45,6 @@ private:
     br       //!< Bottom right corner.
   };
 
-  Color lerp( const Color &A, const Color &B, float t ) const;
-
 public:
   /// Ctro receives a list of four colors, for each corner.
   BackgroundColor( const std::vector< Color >& colors ) {
@@ -60,7 +58,7 @@ public:
 
   virtual ~BackgroundColor(){};
 
-  Color sampleXYZ(const Point2f& pixel_ndc) const;
+  Color sampleXYZ(const Point2f& pixel_ndc) const override;
 };
 
 // factory pattern functions.
