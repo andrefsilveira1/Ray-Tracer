@@ -30,13 +30,13 @@ public:
   Background(mapping_t mt = mapping_t::spherical) : mapping_type{ mt } { /* empty */ }
 
   virtual ~Background(){ /* empty */ };
-  [[nodiscard]] Spectrum sampleXYZ(const Point2f& pixel_ndc) const;
+  [[nodiscard]] Color sampleXYZ(const Point2f& pixel_ndc) const {return Color();};
 };
 
 class BackgroundColor : public Background {
 private:
   /// Each corner has a color associated with.
-  // Spectrum corners[4] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+  Color corners[4] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
   /// Corner indices.
   enum Corners_e {
     bl = 0,  //!< Bottom left corner.
@@ -45,13 +45,22 @@ private:
     br       //!< Bottom right corner.
   };
 
+  Color lerp( const Color &A, const Color &B, float t ) const;
+
 public:
   /// Ctro receives a list of four colors, for each corner.
-  BackgroundColor() {
-    // TODO
+  BackgroundColor( const std::vector< Color >& colors ) {
+    corners[bl] = colors[bl];
+    corners[tl] = colors[tl];
+    corners[tr] = colors[tr];
+    corners[br] = colors[br];
   }
 
+  BackgroundColor() {}
+
   virtual ~BackgroundColor(){};
+
+  Color sampleXYZ(const Point2f& pixel_ndc) const;
 };
 
 // factory pattern functions.

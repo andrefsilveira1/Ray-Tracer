@@ -22,6 +22,13 @@ using std::string;
 using std::tuple;
 # include <utility>
 
+# include <glm/ext/vector_float2.hpp>
+# include <glm/ext/vector_float3.hpp>
+# include <glm/ext/vector_int2.hpp>
+# include <glm/ext/vector_int3.hpp>
+
+#include "color.h"
+
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
 # define Dictionary std::map
@@ -31,22 +38,21 @@ namespace rt3 {
 /// ATENTION: This is just to compile the project. You need to implement
 /// Point3f!!!!
 // Alias to a Point3f (simulation)
-using Point3f = std::array<float, 3>;
+using Point3f = glm::vec3;
 // Temporary Vec3, just to compile. TODO: Implement a real one!!!
-using Vector3f = std::array<float, 3>;
-using Color24 = std::array<uint8_t, 3>;
+using Vector3f = glm::vec3;
 using Spectrum = std::array<float, 3>;
-using Normal3f = std::array<float, 3>;
+using Normal3f = glm::vec3;
 using Ray = std::array<float, 3>;
 
 // List of points
 using ListPoint3f = std::vector<Point3f>;
 
 // Temporary Vec3i. TODO: code a real one.
-using Vector3i = std::array<int, 3>;
-using Point3i = std::array<int, 3>;
-using Point2i = std::array<int, 2>;
-using Point2f = std::array<float, 2>;
+using Vector3i = glm::ivec3;
+using Point3i = glm::ivec3;
+using Point2i = glm::ivec2;
+using Point2f = glm::vec2;
 
 template <typename T, size_t S>
 std::ostream& operator<<(std::ostream& os, const std::array<T, S>& v) {
@@ -116,5 +122,6 @@ inline float Radians(float deg) { return ((float)M_PI / 180.F) * deg; }
 /// Radians to degreees.
 inline float Degrees(float rad) { return (180.F / (float)M_PI) * rad; }
 }  // namespace rt3
+
 
 #endif  // RT3_H

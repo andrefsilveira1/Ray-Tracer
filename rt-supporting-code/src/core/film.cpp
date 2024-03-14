@@ -10,19 +10,31 @@ namespace rt3 {
 //=== Film Method Definitions
 Film::Film(const Point2i& resolution, const std::string& filename, image_type_e imgt)
     : m_full_resolution{ resolution }, m_filename{ filename }, m_image_type{ imgt } {
-  // TODO
+  m_color_buffer_ptr = std::make_unique<ColorBuffer>(resolution.x, resolution.y);
 }
 
 Film::~Film() = default;
 
 /// Add the color to image.
-void Film::add_sample(const Point2f& pixel_coord, const Color24& pixel_color) {
-  // TODO: add color to the proper location.
+void Film::add_sample(const Point2i& pixel_coord, const Color& pixel_color) {
+  m_color_buffer_ptr->mat[pixel_coord.x][pixel_coord.y] = Color(pixel_color);
 }
 
 /// Convert image to RGB, compute final pixel values, write image.
 void Film::write_image() const {
   // TODO: call the proper writing function, either PPM or PNG.
+  bool ok = false;
+  byte* byte_d = m_color_buffer_ptr->get_byte_arr();
+  
+  if(m_image_type == image_type_e::PNG) {
+    save_png(byte_d, height(), width(), 3, m_filename);
+  } else if(m_image_type == image_type_e::PPM3) {
+    save_ppm3(byte_d, height(), width(), 3, m_filename);
+  } else if(m_image_type == image_type_e::PPM6) {
+    save_ppm6(byte_d, height(), width(), 3, m_filename);
+  }
+
+  if(!ok) RT3_ERROR("Could not save the image.");
 }
 
 // Factory function pattern.
@@ -64,13 +76,14 @@ Film* create_film(const ParamSet& ps) {
 
   // TODO
   // Read crop window information.
-  std::vector<real_type> cw = retrieve(ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
+  /*std::vector<real_type> cw = retrieve(ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
   std::cout << "Crop window ";
   for (const auto& e : cw) {
     std::cout << e << " ";
   }
-  std::cout << '\n';
+  std::cout << '\n';*/
 
+  //Film::image_type_e img_t = retrieve(ps, "img_type", Film::image_type_e::PNG);
   // Note that the image type is fixed here. Must be read from ParamSet, though.
   return new Film(Point2i{ xres, yres }, filename, Film::image_type_e::PNG);
 }
