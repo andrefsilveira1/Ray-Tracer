@@ -3,9 +3,11 @@
 #include "common.h"
 #include "background.h"
 
-void encodeOneStep(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height) {
-  //Encode the image
-  unsigned error = lodepng::encode(filename, image, width, height);
+void encodeTwoSteps(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height) {
+  std::vector<unsigned char> png;
+
+  unsigned error = lodepng::encode(png, image, width, height);
+  if(!error) lodepng::save_file(png, filename);
 
   //if there's an error, display it
   if(error) std::cout << "encoder error " << error << ": "<< lodepng_error_text(error) << std::endl;
@@ -43,5 +45,6 @@ int main() {
         }
     }
 
-    encodeOneStep("out.png", vc, nx, ny);
+
+    encodeTwoSteps("images/out.png", vc, nx, ny);
 }

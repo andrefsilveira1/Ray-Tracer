@@ -34,7 +34,7 @@ bool save_ppm6(unsigned char* data, size_t w, size_t h, size_t d, const std::str
 
 /// Saves an image as a **ascii** PPM file.
 bool save_ppm3(unsigned char* data, size_t w, size_t h, size_t d, const std::string& file_name_) {
-  std::ofstream ofs_file(file_name_, std::ios::out);
+  std::fstream ofs_file(file_name_, std::ios::out);
   if (not ofs_file.is_open()) {
     return false;
   }
@@ -69,7 +69,12 @@ bool save_png(unsigned char* data, size_t w, size_t h, size_t d, const std::stri
   // Encode from raw pixels to disk with a single function call
   // The image argument has width * height RGBA pixels or width * height * 4
   // bytes Encode the image
-  unsigned error = lodepng::encode(file_name_, img, w, h);
+
+  // unsigned error = lodepng::encode(file_name_, img, w, h);
+  std::vector<unsigned char> png;
+
+  unsigned error = lodepng::encode(png, img, w, h);
+  if(!error) lodepng::save_file(png, file_name_);
 
   // if there's an error, display it
   if (error != 0U) {
