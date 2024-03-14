@@ -34,7 +34,7 @@ bool save_ppm6(unsigned char* data, size_t w, size_t h, size_t d, const std::str
 
 /// Saves an image as a **ascii** PPM file.
 bool save_ppm3(unsigned char* data, size_t w, size_t h, size_t d, const std::string& file_name_) {
-  std::fstream ofs_file(file_name_, std::ios::out);
+  std::ofstream ofs_file(file_name_, std::ios::out);
   if (not ofs_file.is_open()) {
     return false;
   }
