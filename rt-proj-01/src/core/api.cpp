@@ -123,6 +123,8 @@ void API::world_end() {
     //================================================================================
     auto start = std::chrono::steady_clock::now();
     render(the_film.get(), the_background.get());  // TODO: This is the ray tracer's  main loop.
+    std::cout << "GOT HERE:" << "\n";
+    std::cout << curr_run_opt << "\n";
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end
