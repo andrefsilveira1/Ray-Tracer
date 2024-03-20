@@ -51,6 +51,7 @@ RunningOptions cli_parser(int argc, char* argv[]) {
       opt.crop_window[0][1] = std::stof(argv[++i]);
       opt.crop_window[1][0] = std::stof(argv[++i]);
       opt.crop_window[1][1] = std::stof(argv[++i]);
+
     } else if (option == "--outfile" or option == "-outfile" or option == "-o") {
       if (i + 1 == argc) {  // The option's argument is missing.
         usage("missing value after --outfile argument");

@@ -6,17 +6,33 @@
 
 namespace rt3 {
 
-void render(Film *film, Background *bckg) {
+void render(Film *film, Background *bckg, RunningOptions &opt) {
   int w = film->width();
   int h = film->height();
+  auto crop_window = opt.crop_window;
 
-  /* std::cout << w << " ----- " << h << std::endl; */
+
+  if (crop_window[0][0] == 0 && crop_window[0][1] == 1 &&
+      crop_window[1][0] == 0 && crop_window[1][1] == 1) {
+      w = film->width();
+      h = film->height();
+  } else {
+    std::cout << "Crop Window: ("
+            << crop_window[0][0] << ", "
+            << crop_window[1][0] << ") to ("
+            << crop_window[0][1] << ", "
+            << crop_window[1][1] << ")" << std::endl;
+    w = crop_window[0][1] - crop_window[0][0] + 1;
+    h = crop_window[1][1] - crop_window[1][0] + 1;
+    std::cout << "W:" << crop_window[0][1] - crop_window[0][0] + 1 << '\n';
+    std::cout << "H:" << crop_window[1][1] - crop_window[1][0] + 1<< '\n';
+  }
+
+
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
-      Color c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-      //std::cout << i << " --- " << j << std::endl;
-      /* std::cout << "(render) Color in (" << i << ", " << j << ") = " 
-                << c.r << " " << c.g << " " << c.b << std::endl; */
+      Color c;
+      c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
       film->add_sample({i,j}, c);
     }
   }
@@ -122,7 +138,7 @@ void API::world_end() {
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
-    render(the_film.get(), the_background.get());  // TODO: This is the ray tracer's  main loop.
+    render(the_film.get(), the_background.get(), curr_run_opt);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end
