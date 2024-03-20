@@ -93,7 +93,6 @@ Film* create_film(const ParamSet& ps) {
   // TODO
   // Read crop window information.
   std::vector<real_type> cw = retrieve(ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
-  std::cout << "GET CROP: Crop window ";
   for (const auto& e : cw) {
     std::cout << e << " ";
   }
