@@ -6,17 +6,37 @@
 
 namespace rt3 {
 
-void render(Film *film, Background *bckg) {
+void render(Film *film, Background *bckg, RunningOptions opt) {
   int w = film->width();
   int h = film->height();
 
-  /* std::cout << w << " ----- " << h << std::endl; */
+  int crop_start_x = opt.crop_window[0][0];
+  int crop_end_x = opt.crop_window[1][0];
+  int crop_start_y = opt.crop_window[0][1];
+  int crop_end_y = opt.crop_window[1][1];
+
+  // Check if the crop window values are different from default
+  if (crop_start_x == 0 && crop_end_x == 1 && crop_start_y == 0 && crop_end_y == 1) {
+    std::cout << "DIFFERENT" << "\n";
+    w = film->width();
+    h = film->height();
+  } else {
+    w = film->width();
+    h = film->height();
+    // w = crop_end_x - crop_start_x + 1;
+    // h = crop_end_y - crop_start_y + 1;
+  }
+
+  std::cout << "Crop Window: (" << crop_start_x << ", " << crop_start_y << ") to (" << crop_end_x << ", " << crop_end_y << ")" << "\n";
+
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
-      Color c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-      //std::cout << i << " --- " << j << std::endl;
-      /* std::cout << "(render) Color in (" << i << ", " << j << ") = " 
-                << c.r << " " << c.g << " " << c.b << std::endl; */
+      Color c;
+      // if (crop_start_x != 0 || crop_end_x != 1 || crop_start_y != 0 || crop_end_y != 1) {
+      //   c = bckg->sampleXYZ({float(j + crop_start_x)/float(w), float(i + crop_start_y)/float(h)});
+      // } else {
+      // }
+      c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
       film->add_sample({i,j}, c);
     }
   }
@@ -122,9 +142,7 @@ void API::world_end() {
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
-    render(the_film.get(), the_background.get());  // TODO: This is the ray tracer's  main loop.
-    std::cout << "GOT HERE:" << "\n";
-    std::cout << curr_run_opt << "\n";
+    render(the_film.get(), the_background.get(), curr_run_opt);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end
