@@ -14,7 +14,6 @@ void render(Film *film, Background *bckg, RunningOptions &opt) {
 
   if (crop_window[0][0] == 0 && crop_window[0][1] == 1 &&
       crop_window[1][0] == 0 && crop_window[1][1] == 1) {
-      std::cout << "SAME" << "\n";
       w = film->width();
       h = film->height();
   } else {
@@ -25,16 +24,14 @@ void render(Film *film, Background *bckg, RunningOptions &opt) {
             << crop_window[1][1] << ")" << std::endl;
     w = crop_window[0][1] - crop_window[0][0] + 1;
     h = crop_window[1][1] - crop_window[1][0] + 1;
+    std::cout << "W:" << crop_window[0][1] - crop_window[0][0] + 1 << '\n';
+    std::cout << "H:" << crop_window[1][1] - crop_window[1][0] + 1<< '\n';
   }
 
 
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
       Color c;
-      // if (crop_start_x != 0 || crop_end_x != 1 || crop_start_y != 0 || crop_end_y != 1) {
-      //   c = bckg->sampleXYZ({float(j + crop_start_x)/float(w), float(i + crop_start_y)/float(h)});
-      // } else {
-      // }
       c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
       film->add_sample({i,j}, c);
     }
