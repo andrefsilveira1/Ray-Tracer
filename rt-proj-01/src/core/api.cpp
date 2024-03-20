@@ -6,28 +6,27 @@
 
 namespace rt3 {
 
-void render(Film *film, Background *bckg, RunningOptions opt) {
+void render(Film *film, Background *bckg, RunningOptions &opt) {
   int w = film->width();
   int h = film->height();
+  auto crop_window = opt.crop_window;
 
-  int crop_start_x = opt.crop_window[0][0];
-  int crop_end_x = opt.crop_window[1][0];
-  int crop_start_y = opt.crop_window[0][1];
-  int crop_end_y = opt.crop_window[1][1];
 
-  // Check if the crop window values are different from default
-  if (crop_start_x == 0 && crop_end_x == 1 && crop_start_y == 0 && crop_end_y == 1) {
-    std::cout << "DIFFERENT" << "\n";
-    w = film->width();
-    h = film->height();
+  if (crop_window[0][0] == 0 && crop_window[0][1] == 1 &&
+      crop_window[1][0] == 0 && crop_window[1][1] == 1) {
+      std::cout << "SAME" << "\n";
+      w = film->width();
+      h = film->height();
   } else {
-    w = film->width();
-    h = film->height();
-    // w = crop_end_x - crop_start_x + 1;
-    // h = crop_end_y - crop_start_y + 1;
+    std::cout << "Crop Window: ("
+            << crop_window[0][0] << ", "
+            << crop_window[1][0] << ") to ("
+            << crop_window[0][1] << ", "
+            << crop_window[1][1] << ")" << std::endl;
+    w = crop_window[0][1] - crop_window[0][0] + 1;
+    h = crop_window[1][1] - crop_window[1][0] + 1;
   }
 
-  std::cout << "Crop Window: (" << crop_start_x << ", " << crop_start_y << ") to (" << crop_end_x << ", " << crop_end_y << ")" << "\n";
 
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
