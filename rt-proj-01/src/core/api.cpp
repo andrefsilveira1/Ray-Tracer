@@ -140,11 +140,6 @@ void API::world_end() {
     auto start = std::chrono::steady_clock::now();
 
     std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
-    cout << "STRING HERE:" << std::endl;
-    for (const auto& e : cw) {
-      std::cout << e << " ";
-    }
-
     render(the_film.get(), the_background.get(), curr_run_opt, cw);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
