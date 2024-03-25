@@ -6,26 +6,26 @@
 
 namespace rt3 {
 
-void render(Film *film, Background *bckg, RunningOptions &opt) {
+void render(Film *film, Background *bckg, RunningOptions &opt, vector<real_type> cw) {
   int w = film->width();
   int h = film->height();
+
   auto crop_window = opt.crop_window;
 
-
-  if (crop_window[0][0] == 0 && crop_window[0][1] == 1 &&
-      crop_window[1][0] == 0 && crop_window[1][1] == 1) {
-      w = film->width();
-      h = film->height();
+  if (cw[0] == 0 && cw[1] == 1 && cw[2] == 0 && cw[3] == 1) {
+    if (crop_window[0][0] == 0 && crop_window[0][1] == 1 && crop_window[1][0] == 0 && crop_window[1][1] == 1) {
+        std::cout << "--> Using default crop window." << std::endl;
+        w = film->width();
+        h = film->height();
+    } else {
+        std::cout << "--> Using crop window from flag." << std::endl;
+        w = crop_window[1][1] - crop_window[1][0] + 1;
+        h = crop_window[0][1] - crop_window[0][0] + 1;
+    }
   } else {
-    std::cout << "Crop Window: ("
-            << crop_window[0][0] << ", "
-            << crop_window[1][0] << ") to ("
-            << crop_window[0][1] << ", "
-            << crop_window[1][1] << ")" << std::endl;
-    w = crop_window[0][1] - crop_window[0][0] + 1;
-    h = crop_window[1][1] - crop_window[1][0] + 1;
-    std::cout << "W:" << crop_window[0][1] - crop_window[0][0] + 1 << '\n';
-    std::cout << "H:" << crop_window[1][1] - crop_window[1][0] + 1<< '\n';
+      std::cout << "--> Using custom crop window." << std::endl;
+      w = cw[1] - cw[0] + 1;
+      h = cw[3] - cw[2] + 1;
   }
 
 
@@ -138,7 +138,9 @@ void API::world_end() {
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
-    render(the_film.get(), the_background.get(), curr_run_opt);  // TODO: This is the ray tracer's  main loop.
+
+    std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
+    render(the_film.get(), the_background.get(), curr_run_opt, cw);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end
