@@ -28,6 +28,7 @@ using std::tuple;
 # include <glm/ext/vector_int3.hpp>
 
 #include "color.h"
+#include "ray.h"
 
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
@@ -43,7 +44,7 @@ using Point3f = glm::vec3;
 using Vector3f = glm::vec3;
 using Spectrum = std::array<float, 3>;
 using Normal3f = glm::vec3;
-using Ray = std::array<float, 3>;
+using Ray = Ray;
 
 // List of points
 using ListPoint3f = std::vector<Point3f>;
@@ -92,6 +93,10 @@ struct RunningOptions {
   std::string outfile;                                             //!< output image file name.
   bool quick_render{ false };  //!< if true render image with 1/4 of the
                                //!< requested resolition.
+};
+
+struct ScreenWindow {
+
 };
 
 //=== Global Inline Functions

@@ -42,9 +42,14 @@ struct RenderOptions {
   // the Film
   std::string film_type{"image"}; // The only type available.
   ParamSet film_ps;
+  
   /// the Camera
   string camera_type{"perspective"};
   ParamSet camera_ps;
+  
+  /// the Look At
+  ParamSet lookat_ps;
+  
   /// the Bakcground
   string bkg_type{"solid"}; // "image", "interpolated"
   ParamSet bkg_ps;
@@ -102,6 +107,7 @@ public:
 
   static void film(const ParamSet &ps);
   static void camera(const ParamSet &ps);
+  static void lookat(const ParamSet &ps);
   static void background(const ParamSet &ps);
   static void world_begin();
   static void world_end();

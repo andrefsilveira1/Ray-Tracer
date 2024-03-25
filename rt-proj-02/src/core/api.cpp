@@ -120,8 +120,12 @@ void API::world_end() {
   // In the future, the background will be parte of the scene object.
   std::unique_ptr<Background> the_background{ make_background(render_opt->bkg_type,
                                                               render_opt->bkg_ps) };
-  // Same with the film, that later on will belong to a camera object.
+  // Same with the film
   std::unique_ptr<Film> the_film{ make_film(render_opt->film_type, render_opt->film_ps) };
+
+  // Same with the camera
+  std::unique_ptr<Camera> the_camera{ make_camera(render_opt->film_type, render_opt->film_ps) };
+
 
   // Run only if we got film and background.
   if (the_film and the_background) {
@@ -185,6 +189,23 @@ void API::film(const ParamSet& ps) {
   std::string type = retrieve(ps, "type", string{ "unknown" });
   render_opt->film_type = type;
   render_opt->film_ps = ps;
+}
+
+void API::camera(const ParamSet& ps) {
+  std::cout << ">>> Inside API::camera()\n";
+  VERIFY_SETUP_BLOCK("API::camera");
+
+  // retrieve type from ps.
+  std::string type = retrieve(ps, "type", string{ "perspective" });
+  render_opt->camera_type = type;
+  render_opt->camera_ps = ps;
+}
+
+void API::lookat(const ParamSet& ps) {
+  std::cout << ">>> Inside API::lookat()\n";
+  VERIFY_SETUP_BLOCK("API::lookat");
+
+  render_opt->lookat_ps = ps;
 }
 
 }  // namespace rt3
