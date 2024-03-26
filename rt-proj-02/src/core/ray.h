@@ -15,6 +15,8 @@ class Ray {
             real_type start=0, real_type end=INFINITY) : o{o}, d{d},
             t_min{start}, t_max{end} {/*empty*/}
         Ray() : t_min{0.f}, t_max{INFINITY}{/*empty*/}
+
+        void norm();
     private:
         Point3f o; //!< origin
         Vector3f d; //!< direction
