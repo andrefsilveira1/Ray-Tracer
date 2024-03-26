@@ -53,6 +53,7 @@ class Film {
 
     int height() const { return m_full_resolution.y; }
     int width() const { return m_full_resolution.x; }
+    real_type aspect_ratio() const {return ((real_type) width()) /  ((real_type)height());};
   };
 
   // Factory pattern. It's not part of this class.
