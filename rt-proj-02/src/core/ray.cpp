@@ -23,3 +23,4 @@ void Ray::norm() { // Refactor for normalize from glm
     d = d / t;
 
 }
+

@@ -12,7 +12,7 @@ public:
     Vector3f u, v, w; // the last two lines compose the frame of the camera
     ScreenWindow sw;
 
-    Camera(unique_ptr<Film> &film, Point3f lf, Point3f la, Vector3f up);
+    Camera(unique_ptr<Film> &film, Point3f lf, Point3f la, Vector3f up, ScreenWindow sw);
 
     pair<real_type, real_type> get_uv(int i, int j);
 
