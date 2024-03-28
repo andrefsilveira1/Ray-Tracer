@@ -23,17 +23,14 @@ set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -pedantic" )
 set( RT3_SOURCE_DIR "src" )
 
 #=== main  target ===
-add_executable(basic_rt3 ${RT3_SOURCE_DIR}/core/api.cpp
-                         ${RT3_SOURCE_DIR}/core/background.cpp
-                         ${RT3_SOURCE_DIR}/core/error.cpp
-                         ${RT3_SOURCE_DIR}/core/film.cpp
-                         ${RT3_SOURCE_DIR}/core/image_io.cpp
-                         ${RT3_SOURCE_DIR}/core/parser.cpp
-                         ${RT3_SOURCE_DIR}/core/color.cpp
-                         ${RT3_SOURCE_DIR}/ext/lodepng.cpp
-                         ${RT3_SOURCE_DIR}/ext/tinyxml2.cpp
-                         ${RT3_SOURCE_DIR}/main/rt3.cpp
+file( GLOB SOURCE_BASICRT3 ${RT3_SOURCE_DIR}/cameras/*.cpp
+                           ${RT3_SOURCE_DIR}/core/*.cpp
+                           ${RT3_SOURCE_DIR}/ext/*.cpp
+                           ${RT3_SOURCE_DIR}/main/*.cpp
                         )
+add_executable(basic_rt3 ${SOURCE_BASICRT3})
+
+target_link_libraries(basic_rt3)
 
 #define C++17 as the standard.
 set_property(TARGET basic_rt3 PROPERTY CXX_STANDARD 17)

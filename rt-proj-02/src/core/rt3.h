@@ -99,8 +99,8 @@ struct ScreenWindow {
   real_type l, r, b, t;
 
   ScreenWindow() = default;
-  ScreenWindow(real_type _l, real_type _r, real_type _t, real_type _b)
-              : l(_l), r(_r), t(_t), b(_b) {}
+  ScreenWindow(real_type _l, real_type _r, real_type _b, real_type _t)
+              : l(_l), r(_r), b(_b), t(_t) {}
   
   ScreenWindow(const vector<real_type> &v) : ScreenWindow(v[0],v[1],v[2],v[3]) {}
 

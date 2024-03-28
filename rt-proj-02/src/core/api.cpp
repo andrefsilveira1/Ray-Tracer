@@ -58,12 +58,28 @@ Film* API::make_film(const std::string& name, const ParamSet& ps) {
 }
 
 Background* API::make_background(const std::string& name, const ParamSet& ps) {
-  std::cout << ">>> Inside API::background()\n";
+  std::cout << ">>> Inside API::make_background()\n";
   Background* bkg{ nullptr };
   bkg = create_color_background(ps);
 
   // Return the newly created background.
   return bkg;
+}
+
+Camera* API::make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, unique_ptr<Film> &&the_film) {
+  std::cout << ">>> Inside API::make_camera()\n";
+  Camera* cam{ nullptr };
+
+  std::string type = retrieve(ps_camera, "type", std::string { "ortographic" });
+
+  if(type == "orthographic"){
+    cam = create_orthographic_camera(ps_camera, ps_lookat, std::move(the_film));
+  }else if(type == "perspective"){
+    cam = create_perspective_camera(ps_camera, ps_lookat, std::move(the_film));
+  }
+
+  // Return the newly created camera.
+  return cam;
 }
 
 // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
@@ -121,14 +137,19 @@ void API::world_end() {
   std::unique_ptr<Background> the_background{ make_background(render_opt->bkg_type,
                                                               render_opt->bkg_ps) };
   // Same with the film
-  std::unique_ptr<Film> the_film{ make_film(render_opt->film_type, render_opt->film_ps) };
+  std::unique_ptr<Film> the_film{ 
+                  make_film(render_opt->film_type, 
+                            render_opt->film_ps) };
 
   // Same with the camera
-  std::unique_ptr<Camera> the_camera{ make_camera(render_opt->film_type, render_opt->film_ps) };
+  std::unique_ptr<Camera> the_camera{ 
+                  make_camera(render_opt->camera_ps, 
+                              render_opt->lookat_ps, 
+                              std::move(the_film)) };
 
 
   // Run only if we got film and background.
-  if (the_film and the_background) {
+  if (the_camera and the_background) {
     RT3_MESSAGE("    Parsing scene successfuly done!\n");
     RT3_MESSAGE("[2] Starting ray tracing progress.\n");
 

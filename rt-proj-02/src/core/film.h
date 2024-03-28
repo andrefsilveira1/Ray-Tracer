@@ -1,9 +1,9 @@
 #ifndef FILM_H
 #define FILM_H
 
+#include "rt3.h"
 #include "error.h"
 #include "paramset.h"
-#include "rt3.h"
 
 namespace rt3 {
 
@@ -39,7 +39,7 @@ class Film {
     virtual ~Film();
 
     /// Retrieve original Film resolution.
-    [[nodiscard]] Point2i get_resolution() const { return m_full_resolution; };
+    [[nodiscard]] Point2i get_resolution() const { return m_full_resolution; }
     /// Takes a sample `p` and its radiance `L` and updates the image.
     void add_sample(const Point2i&, const Color&);
     void write_image() const;
@@ -53,7 +53,7 @@ class Film {
 
     int height() const { return m_full_resolution.y; }
     int width() const { return m_full_resolution.x; }
-    real_type aspect_ratio() const {return ((real_type) width()) /  ((real_type)height());};
+    real_type aspect_ratio() const {return ((real_type) width()) /  ((real_type)height());}
   };
 
   // Factory pattern. It's not part of this class.

@@ -12,7 +12,7 @@ int main() {
     float b = 3.3;
     float c = 4.2;
     array<float, 3> x{a, b ,c};
-    v = glm::vec3{a, b, c};
+    v = glm::vec3{a, b};
     cout << v[0] << " " << v[1] << " " << v[2] << endl;
     //vector<glm::vec3> vec;
 
