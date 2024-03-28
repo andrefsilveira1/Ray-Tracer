@@ -6,7 +6,11 @@
 namespace rt3 {
 
 class PerspectiveCamera : public Camera {
-    // ...
+public:
+    PerspectiveCamera(std::unique_ptr<Film> &&film, Point3f lf, Point3f la, Vector3f up, ScreenWindow sw);
+    ~PerspectiveCamera() = default;
+
+    Ray generate_ray(int i, int j) override;
 };
 
 PerspectiveCamera* create_perspective_camera(

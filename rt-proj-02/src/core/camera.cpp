@@ -12,7 +12,7 @@ pair<real_type, real_type> Camera::get_uv(int i, int j) {
     return {u, v};
 }
 
-Camera::Camera(unique_ptr<Film> &_film, Point3f lf, Point3f la, Vector3f up, ScreenWindow _sw) 
+Camera::Camera(unique_ptr<Film> &&_film, Point3f lf, Point3f la, Vector3f up, ScreenWindow _sw) 
 : film(std::move(_film)), e(lf), sw(_sw)
 {
     Vector3f gaze = lf - la;
