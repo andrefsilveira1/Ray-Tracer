@@ -6,17 +6,17 @@
 
 namespace rt3 {
 
-void render(Film *film, Background *bckg, RunningOptions &opt, vector<real_type> cw) {
-  int w = film->width();
-  int h = film->height();
+void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_type> cw) {
+  int w = camera->film->width();
+  int h = camera->film->height();
 
   auto crop_window = opt.crop_window;
 
   if (cw[0] == 0 && cw[1] == 1 && cw[2] == 0 && cw[3] == 1) {
     if (crop_window[0][0] == 0 && crop_window[0][1] == 1 && crop_window[1][0] == 0 && crop_window[1][1] == 1) {
         std::cout << "--> Using default crop window." << std::endl;
-        w = film->width();
-        h = film->height();
+        w = camera->film->width();
+        h = camera->film->height();
     } else {
         std::cout << "--> Using crop window from flag." << std::endl;
         w = crop_window[1][1] - crop_window[1][0] + 1;
@@ -33,10 +33,10 @@ void render(Film *film, Background *bckg, RunningOptions &opt, vector<real_type>
     for(int j = 0; j < w; j++) {
       Color c;
       c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-      film->add_sample({i,j}, c);
+      camera->film->add_sample({i,j}, c);
     }
   }
-  film->write_image();
+  camera->film->write_image();
 }
 
 //=== API's static members declaration and initialization.
@@ -154,7 +154,7 @@ void API::world_end() {
     RT3_MESSAGE("[2] Starting ray tracing progress.\n");
 
     // Structure biding, c++17.
-    auto res = the_film->get_resolution();
+    auto res = the_camera->film->get_resolution();
     size_t w = res[0];
     size_t h = res[1];
     RT3_MESSAGE("    Image dimensions in pixels (W x H): " + std::to_string(w) + " x "
@@ -165,7 +165,7 @@ void API::world_end() {
     auto start = std::chrono::steady_clock::now();
 
     std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
-    render(the_film.get(), the_background.get(), curr_run_opt, cw);  // TODO: This is the ray tracer's  main loop.
+    render(the_camera.get(), the_background.get(), curr_run_opt, cw);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end

@@ -1,5 +1,5 @@
 <RT3>
-    <camera type="orthographic" />
+    <camera type="perspective" fovy="40"/>
     <film type="image" x_res="800" y_res="600" filename="images/interpolated_bkg.png" img_type="png" />
     <world_begin/>
         <!-- This defines an interpolated background -->
