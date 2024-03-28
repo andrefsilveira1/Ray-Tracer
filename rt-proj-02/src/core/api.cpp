@@ -31,6 +31,10 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
 
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
+      Ray r = camera->generate_ray(i, j);
+
+      std::cout << "Ray r = " << r << std::endl;
+
       Color c;
       c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
       camera->film->add_sample({i,j}, c);

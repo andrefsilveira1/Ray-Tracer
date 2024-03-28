@@ -7,20 +7,35 @@
 namespace rt3 {
 
 class Ray {
-    private:
+    public:
         Point3f o; //!< origin
         Vector3f d; //!< direction
         mutable real_type t_min, t_max; //!< parameters
         // ... the methods goes here
         Point3f operator()(real_type t) const { return o + d * t; }
-    public:
+    
         Ray (const Point3f& o, const Vector3f& d,
-            real_type start=0, real_type end=INFINITY) : o{o}, d{d},
+            real_type start=0, real_type end=INFINITY) : o{o}, d{glm::normalize(d)},
             t_min{start}, t_max{end} {/*empty*/}
         Ray() : t_min{0.f}, t_max{INFINITY}{/*empty*/}
 
         void norm();
 };
+
+std::ostream& operator<<(std::ostream& os, const Ray& r)
+{   
+    os << "Origin: { ";
+    for(int k = 0; k < 3; k++) {
+    os << r.o[k] << " ";
+    }
+    os << "} ";
+    os << "Direction: { ";
+    for(int k = 0; k < 3; k++) {
+    os << r.d[k] << " ";
+    }
+    os << "}";
+    return os;
+}
 
 }
 //Ray r{ Point3{0,0,0}, Vector3{3,2,-4} }; // creating an infinity ray.
