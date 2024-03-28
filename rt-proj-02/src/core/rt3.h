@@ -22,13 +22,14 @@ using std::string;
 using std::tuple;
 # include <utility>
 
+# include <glm/glm.hpp>
 # include <glm/ext/vector_float2.hpp>
 # include <glm/ext/vector_float3.hpp>
 # include <glm/ext/vector_int2.hpp>
 # include <glm/ext/vector_int3.hpp>
 
 #include "color.h"
-#include "ray.h"
+//#include "ray.h"
 
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
@@ -44,7 +45,7 @@ using Point3f = glm::vec3;
 using Vector3f = glm::vec3;
 using Spectrum = std::array<float, 3>;
 using Normal3f = glm::vec3;
-using Ray = Ray;
+//using Ray = Ray;
 
 // List of points
 using ListPoint3f = std::vector<Point3f>;

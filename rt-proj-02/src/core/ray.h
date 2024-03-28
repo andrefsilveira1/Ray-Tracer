@@ -6,9 +6,6 @@
 
 namespace rt3 {
 
-//using rt3::Point3f;
-//using rt3::Vector3f;
-
 class Ray {
     private:
         Point3f o; //!< origin
