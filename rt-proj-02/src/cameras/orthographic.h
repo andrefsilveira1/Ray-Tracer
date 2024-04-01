@@ -6,7 +6,10 @@
 namespace rt3 {
 
 class OrthographicCamera : public Camera {
-    // ...
+    OrthographicCamera(std::unique_ptr<Film> &&film, Point3f lf, Point3f la, Vector3f up, ScreenWindow sw);
+    ~OrthographicCamera() = default;
+
+    Ray generate_ray(int i, int j) override;
 };
 
 OrthographicCamera* create_orthographic_camera(
