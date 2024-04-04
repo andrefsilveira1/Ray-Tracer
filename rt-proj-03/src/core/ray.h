@@ -20,22 +20,24 @@ class Ray {
         Ray() : t_min{0.f}, t_max{INFINITY}{/*empty*/}
 
         void norm();
+        
+        friend std::ostream& operator<<(std::ostream& os, const Ray& r)
+        {   
+            os << "Origin: { ";
+            for(int k = 0; k < 3; k++) {
+            os << r.o[k] << " ";
+            }
+            os << "} ";
+            os << "Direction: { ";
+            for(int k = 0; k < 3; k++) {
+            os << r.d[k] << " ";
+            }
+            os << "}";
+            return os;
+        }
 };
 
-std::ostream& operator<<(std::ostream& os, const Ray& r)
-{   
-    os << "Origin: { ";
-    for(int k = 0; k < 3; k++) {
-    os << r.o[k] << " ";
-    }
-    os << "} ";
-    os << "Direction: { ";
-    for(int k = 0; k < 3; k++) {
-    os << r.d[k] << " ";
-    }
-    os << "}";
-    return os;
-}
+
 
 }
 

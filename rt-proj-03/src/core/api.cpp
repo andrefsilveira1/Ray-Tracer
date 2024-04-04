@@ -57,11 +57,11 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
       //std::cout << "Ray r = " << r << std::endl;
 
       Color c;
-      if(intersect(s, r)) {
-        c = {0, 255, 0};
-      } else {
+      // if(intersect(s, r)) {
+      //   c = {0, 255, 0};
+      // } else {
         c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-      }
+      // }
 
       camera->film->add_sample({i,j}, c);
     }
