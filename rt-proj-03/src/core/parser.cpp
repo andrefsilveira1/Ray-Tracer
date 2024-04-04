@@ -83,9 +83,9 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
         { param_type_e::REAL, "focal_distance" },
         { param_type_e::REAL, "frame_aspectratio" },  // By default it's calulated from the x/y
                                                       // resolution, but it might be overridden.
-        { param_type_e::ARR_REAL, "screen_window" }   // Bounds of the film in screen space. [-1,1]
+        { param_type_e::SCREEN_WINDOW, "screen_window" }// Bounds of the film in screen space. [-1,1]
                                                       // along the shorter image axis, and its set
-                                                      // proportionally along the longer axis.
+                                                      // proportionally along the longer axis.                                                      
       };
 
       parse_parameters(p_element, param_list, /* out */ &ps);
@@ -207,6 +207,9 @@ void parse_parameters(tinyxml2::XMLElement* p_element,
     case param_type_e::SPECTRUM:
       parse_single_COMPOSITE_attrib<real_type, Spectrum>(p_element, ps_out, name);
       break;
+    case param_type_e::SCREEN_WINDOW:
+      parse_single_COMPOSITE_attrib<real_type, ScreenWindow>(p_element, ps_out, name);
+      break;
     case param_type_e::ARR_REAL:
       parse_array_BASIC_attrib<real_type>(p_element, ps_out, name);
       break;
@@ -303,7 +306,7 @@ bool parse_single_COMPOSITE_attrib(tinyxml2::XMLElement* p_element,
     vector<BASIC> values{ result.value() };
     // Get array length
     auto n_basic{ values.size() };  // How many?
-    if(n_basic != 2 && n_basic != 3) return false;
+    if(n_basic != 2 && n_basic != 3 && n_basic != 4) return false;
     // Create the COMPOSITE value.
     COMPOSITE comp;
     for(int i{0}; i < (int) n_basic; i++) {

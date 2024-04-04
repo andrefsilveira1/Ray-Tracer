@@ -113,6 +113,13 @@ struct ScreenWindow {
 
   real_type width() const { return r - l; }
   real_type height() const { return t - b; }
+
+  real_type& operator [] (const int& index) {
+    if(index == 0) return l;
+    if(index == 1) return r;
+    if(index == 2) return b;
+    return t;
+  }
 };
 
 //=== Global Inline Functions

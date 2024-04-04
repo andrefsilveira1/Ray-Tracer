@@ -24,7 +24,7 @@ OrthographicCamera* create_orthographic_camera(
         retrieve( ps_look_at, "look_from",  Point3f({0.0, 0.1, 0.0})),
         retrieve( ps_look_at, "look_at",    Point3f({0.0, 0.1, 0.0})),
         retrieve( ps_look_at, "up",         Vector3f({0.0, 0.1, 0.0})),
-        ScreenWindow()
+        retrieve( ps_camera,    "screen_window",    ScreenWindow())
     );
 }
 

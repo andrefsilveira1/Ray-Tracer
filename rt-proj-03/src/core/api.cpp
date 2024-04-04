@@ -10,7 +10,7 @@ namespace rt3 {
 
 struct Sphere {
   Point3f center{0, 0, 3};
-  real_type r = 0.3;
+  real_type r = 1;
 };
 
 real_type delta(const Sphere &s, const Ray &r) {
@@ -20,7 +20,7 @@ real_type delta(const Sphere &s, const Ray &r) {
 }
 
 bool intersect(const Sphere &s, const Ray &r) {
-  return delta(s, r) <= 0;
+  return delta(s, r) >= 0;
 }
 
 // *****************************************
@@ -54,14 +54,18 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
     for(int j = 0; j < w; j++) {
       Ray r = camera->generate_ray(i, j);
 
-      //std::cout << "Ray r = " << r << std::endl;
 
+      //std::cout << "Ray r = " << r << std::endl;
       Color c;
-      // if(intersect(s, r)) {
-      //   c = {0, 255, 0};
-      // } else {
+      if(intersect(s, r)) {
+        c = {0, 1, 0};
+        //std::cout << "inter ";
+        // std::cout << c.r << " " << c.g << " " << c.b << std::endl;
+      } else {
         c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-      // }
+        // std::cout << "back ";
+        // std::cout << c.r << " " << c.g << " " << c.b << std::endl;
+      }
 
       camera->film->add_sample({i,j}, c);
     }

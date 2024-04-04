@@ -2,7 +2,7 @@
     <lookat look_from="0 4 -11" look_at="0 1 0" up="0 1 0" />
     <camera type="perspective" fovy="30" />
     <!-- The screen_window will default to  "-1.555 1.555 -1 1" /> -->
-    <film type="image" x_res="2800" y_res="1800" crop_window="0 1 0 1"
+    <film type="image" x_res="2800" y_res="1800"
         filename="images/gcodex_matte_ortho.png"
         img_type="png"  gamma_corrected="yes" />
 

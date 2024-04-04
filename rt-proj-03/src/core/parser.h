@@ -83,6 +83,7 @@ enum class param_type_e : int {
   COLOR,        //!< Single Color
   SPECTRUM,     //!< Single Spectrum
   STRING,       //!< Single string
+  SCREEN_WINDOW,//!< Single ScreenWindow
   ARR_INT,      //!< An array of integers
   ARR_REAL,     //!< An array of real numbers
   ARR_VEC3F,    //!< An array of Vector3f
