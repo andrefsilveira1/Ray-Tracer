@@ -28,11 +28,13 @@ using std::tuple;
 // # include <glm/ext/vector_int2.hpp>
 // # include <glm/ext/vector_int3.hpp>
 
-# include "../ext/glm/glm.hpp"
-# include "../ext/glm/ext/vector_float2.hpp"
-# include "../ext/glm/ext/vector_float3.hpp"
-# include "../ext/glm/ext/vector_int2.hpp"
-# include "../ext/glm/ext/vector_int3.hpp"
+//#define GLM_FORCE_MESSAGES
+//# define GLM_FORCE_LEFT_HANDED
+# include <glm/glm.hpp>
+# include <glm/ext/vector_float2.hpp>
+# include <glm/ext/vector_float3.hpp>
+# include <glm/ext/vector_int2.hpp>
+# include <glm/ext/vector_int3.hpp>
 
 #include "color.h"
 //#include "ray.h"
@@ -40,7 +42,6 @@ using std::tuple;
 //== Alias to the chosen data structure to implement a dictionary.
 // #define Dictionary std::unordered_map
 # define Dictionary std::map
-
 //=== Aliases
 namespace rt3 {
 /// ATENTION: This is just to compile the project. You need to implement

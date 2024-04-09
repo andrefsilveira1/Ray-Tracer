@@ -9,8 +9,16 @@ namespace rt3 {
 // ***** TEST OF THE PREVIOUS PROJECT ******
 
 struct Sphere {
-  Point3f center{0, 0, 3};
-  real_type r = 1;
+  Point3f center;
+  Sphere(real_type x, real_type y, real_type z) {
+    center.x = x;
+    center.y = y;
+    center.z = z;
+  } 
+
+  Sphere() {}
+
+  real_type r = 0.4;
 };
 
 real_type delta(const Sphere &s, const Ray &r) {
@@ -48,7 +56,10 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
   }
 
 
-  Sphere s;
+  vector<Sphere> ss;
+  ss.push_back({-1, 0.5, 5}); 
+  ss.push_back({1, -0.5, 8});
+  ss.push_back({-1, -1.5, 3.5});
 
   for(int i = 0; i < h; i++) {
     for(int j = 0; j < w; j++) {
@@ -56,18 +67,16 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
 
 
       //std::cout << "Ray r = " << r << std::endl;
-      Color c;
-      if(intersect(s, r)) {
-        c = {0, 1, 0};
-        //std::cout << "inter ";
-        // std::cout << c.r << " " << c.g << " " << c.b << std::endl;
-      } else {
-        c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
-        // std::cout << "back ";
-        // std::cout << c.r << " " << c.g << " " << c.b << std::endl;
+      Color c = bckg->sampleXYZ({float(j)/float(w), float(i)/float(h)});
+      for(Sphere s : ss) {
+        if(intersect(s, r)) {
+          c = {1, 0, 0};
+          //std::cout << "inter(" << i << " " << j << ")";
+        }
       }
-
+       
       camera->film->add_sample({i,j}, c);
+
     }
   }
   camera->film->write_image();

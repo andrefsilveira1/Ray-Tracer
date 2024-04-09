@@ -19,12 +19,23 @@ OrthographicCamera* create_orthographic_camera(
     const ParamSet& ps_look_at, unique_ptr<Film>&& the_film
 ) {
     
+    Point3f lf = retrieve( ps_look_at, "look_from",  Point3f({0.0, 0.1, 0.0}));
+    Point3f la = retrieve( ps_look_at, "look_at",  Point3f({0.0, 0.1, 0.0}));
+    Vector3f uu = retrieve( ps_look_at, "up",         Vector3f({0.0, 0.1, 0.0}));
+    ScreenWindow sw = retrieve( ps_camera,    "screen_window",    ScreenWindow());
+
+    std::cout << "Created Orthographici camer with: ";
+    std::cout << "\nLook From: {" << lf[0] << " " << lf[1] << " " << lf[2] << "}\n";
+    std::cout << "Look At: {" << la[0] << " " << la[1] << " " << la[2] << "}\n"; 
+    std::cout << "Up: {" << uu[0] << " " << uu[1] << " " << uu[2] << "}\n";
+    std::cout << "The Screen Window: \n";
+    std::cout << "\t" << sw.l << " " << sw.r << " " << sw.b << " " << sw.t << "\n";
     return new OrthographicCamera(
         std::move(the_film),
-        retrieve( ps_look_at, "look_from",  Point3f({0.0, 0.1, 0.0})),
-        retrieve( ps_look_at, "look_at",    Point3f({0.0, 0.1, 0.0})),
-        retrieve( ps_look_at, "up",         Vector3f({0.0, 0.1, 0.0})),
-        retrieve( ps_camera,    "screen_window",    ScreenWindow())
+        lf,
+        la,
+        uu,
+        sw
     );
 }
 
