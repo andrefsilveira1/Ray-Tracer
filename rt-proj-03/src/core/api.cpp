@@ -272,4 +272,9 @@ void API::lookat(const ParamSet& ps) {
   render_opt->lookat_ps = ps;
 }
 
+void API::material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::material()\n";
+  
+}
+
 }  // namespace rt3
