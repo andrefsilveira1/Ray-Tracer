@@ -293,9 +293,11 @@ void API::material(const ParamSet &ps) {
 
     Color materialColor = mat->color();
 
-    std::cout << "Material Color (RGBA): (" << materialColor.r << ", "
-              << materialColor.g << ", " << materialColor.b << ", "
-              << materialColor.alpha << ")" << std::endl;
+    std::cout << "Material Color (RGB): (" << materialColor.r << ", "
+              << materialColor.g << ", " << materialColor.b << ")" << std::endl;
+
+
+
 
 }
 
