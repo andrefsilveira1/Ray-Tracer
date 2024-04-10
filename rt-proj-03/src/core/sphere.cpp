@@ -8,6 +8,7 @@ namespace rt3 {
     Sphere::~Sphere() {}
 
     bool Sphere::intersect(const Ray& r, Surfel* sf) const {
+        return false;
         // TODO ? 
     }
 
