@@ -2,17 +2,18 @@
 #include "material.h"
 
 namespace rt3 {
-    Sphere::Sphere(const Point3f& center, float r, const std::shared_ptr<Material>& material)
-    : center(center), r(r), material(material) {}
+    Sphere::Sphere(const Point3f& center, float radius, const std::shared_ptr<FlatMaterial>& material)
+    : center(center), radius(radius), material(material) {}
 
     Sphere::~Sphere() {}
 
     bool Sphere::intersect(const Ray& r, Surfel* sf) const {
-        return (glm::dot(oc, r.d) * glm::dot(oc, r.d)) - (glm::dot(r.d,r.d) * glm::dot(oc, oc) - s.r*s.r) >= 0;
+        // TODO ? 
     }
 
     bool Sphere::intersect_p(const Ray& r) const {
-        // TODO ?
+        Vector3f oc = r.o - center;
+        return (glm::dot(oc, r.d) * glm::dot(oc, r.d)) - (glm::dot(r.d,r.d) * glm::dot(oc, oc) - radius * radius) >= 0;
     }
 
 }

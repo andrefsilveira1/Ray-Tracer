@@ -8,7 +8,7 @@ namespace rt3 {
     class Sphere : public Primitive {
         public:
             Point3f center;
-            float r;
+            float radius;
             std::shared_ptr<FlatMaterial> material;
 
             Sphere(const Point3f& center, float r, const std::shared_ptr<FlatMaterial>& material);
