@@ -5,7 +5,7 @@
 #include "material.h"
 
 namespace rt3 {
-    class Sphere : public {
+    class Sphere : public Primitive {
         public:
             Point3f center;
             float r;
@@ -18,7 +18,7 @@ namespace rt3 {
             virtual bool intersect_p(const Ray& r) const override; 
             virtual const Material* get_color() const override;
         
-    }
+    };
 }
 
 #endif

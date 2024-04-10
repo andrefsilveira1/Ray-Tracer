@@ -15,7 +15,4 @@ namespace rt3 {
         // TODO ?
     }
 
-    const Material* Sphere::get_color() const {
-        return material->color();
-    }
 }
