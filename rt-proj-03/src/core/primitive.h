@@ -12,10 +12,10 @@ class Primitive {
 		virtual ~Primitive();
 		virtual bool intersect( const Ray& r, Surfel *sf ) const = 0;
 		virtual bool intersect_p( const Ray& r ) const = 0;
-		// virtual const Material * get_material(void) const = { return material->color();}
+		virtual const Material * get_color(void) const = 0;
 
 	private:
-		std::shared_ptr<Material> material;
+		std::shared_ptr<FlatMaterial> material;
 };
 
 } // namespace rt3
