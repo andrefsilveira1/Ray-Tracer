@@ -1,8 +1,8 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "Primitive.h"
-#include "Material.h"
+#include "primitive.h"
+#include "material.h"
 
 namespace rt3 {
     class Sphere : public {
