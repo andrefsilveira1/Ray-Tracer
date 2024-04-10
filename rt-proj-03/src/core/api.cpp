@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include <memory>
+#include "color.h"
+#include "material.h"
 
 namespace rt3 {
 
@@ -270,6 +272,33 @@ void API::lookat(const ParamSet& ps) {
   VERIFY_SETUP_BLOCK("API::lookat");
 
   render_opt->lookat_ps = ps;
+}
+
+void API::material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::material()\n";
+  std::vector<real_type> color = retrieve(ps, "color", std::vector<real_type>{ 0, 0, 0 });
+  std::cout << "Color parameter value: ";
+  // debug only
+    for (size_t i = 0; i < color.size(); ++i) {
+        std::cout << color[i];
+        if (i < color.size() - 1) {
+            std::cout << ", ";
+        }
+    }
+    std::cout << std::endl;
+
+    Color new_color (color[0], color[1], color[2]);
+
+    std::shared_ptr<Material> mat = std::make_shared<FlatMaterial>(new_color);
+
+    Color materialColor = mat->color();
+
+    std::cout << "Material Color (RGB): (" << materialColor.r << ", "
+              << materialColor.g << ", " << materialColor.b << ")" << std::endl;
+
+
+
+
 }
 
 }  // namespace rt3

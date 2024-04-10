@@ -114,6 +114,7 @@ public:
   static void background(const ParamSet &ps);
   static void world_begin();
   static void world_end();
+  static void material(const ParamSet &ps);
 };
 } // namespace rt3
 

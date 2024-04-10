@@ -137,6 +137,11 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
       API::world_end();
       // std::clog << ">>> Leaving WorldBegin, at level " << level+1 <<
       // std::endl;
+    } else if (tag_name == "material") {
+      ParamSet ps;
+      vector<std::pair<param_type_e, string>> param_list{ { param_type_e::ARR_REAL, "color" }};
+      parse_parameters(p_element, param_list, /* out */ &ps);
+      API::material(ps);
     }
     // else RT3_WARNING( "Undefined tag `" + tag_name + "` found!" );
 
