@@ -2,7 +2,7 @@
 #include "material.h"
 
 namespace rt3 {
-    Sphere::Sphere(const Point3f& center, float r, const std::shared_ptr<FlatMaterial>& material)
+    Sphere::Sphere(const Point3f& center, float r, const std::shared_ptr<Material>& material)
     : center(center), r(r), material(material) {}
 
     Sphere::~Sphere() {}
@@ -16,6 +16,6 @@ namespace rt3 {
     }
 
     const Material* Sphere::get_color() const {
-        return material.color();
+        return material->color();
     }
 }
