@@ -17,4 +17,8 @@ namespace rt3 {
         return (glm::dot(oc, r.d) * glm::dot(oc, r.d)) - (glm::dot(r.d,r.d) * glm::dot(oc, oc) - radius * radius) >= 0;
     }
 
+    const Color Sphere::get_color() const {
+        return material->color();
+    }
+
 }

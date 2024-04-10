@@ -16,7 +16,7 @@ namespace rt3 {
 
             virtual bool intersect(const Ray& r, Surfel* sf) const override;
             virtual bool intersect_p(const Ray& r) const override; 
-            virtual const Material* get_color() const override;
+            virtual const Color get_color() const override;
         
     };
 }
