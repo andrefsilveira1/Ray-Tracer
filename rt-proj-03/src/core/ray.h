@@ -5,6 +5,7 @@
 #include "rt3-base.h"
 
 namespace rt3 {
+class Primitive;
 
 class Ray {
     public:
