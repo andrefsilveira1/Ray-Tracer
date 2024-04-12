@@ -22,7 +22,12 @@ public:
 };
 
 
-Sphere *create_sphere(const ParamSet &ps);
+Sphere *create_sphere(const ParamSet &ps) {
+    return new Sphere(
+        retrieve(ps, "center", Point3f()),
+        retrieve(ps, "radius", real_type(1))
+    );
+}
 
 }
 
