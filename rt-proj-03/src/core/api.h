@@ -8,6 +8,8 @@
 #include "../cameras/orthographic.h"
 #include "../cameras/perspective.h"
 #include "../materials/flat.h"
+#include "integrator.h"
+#include "scene.h"
 
 
 //=== API Macro definitions
