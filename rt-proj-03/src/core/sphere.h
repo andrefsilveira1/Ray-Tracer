@@ -1,24 +1,29 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "primitive.h"
-#include "material.h"
+#include "shape.h"
 
-namespace rt3 {
-    class Sphere : public Primitive {
-        public:
-            Point3f center;
-            float radius;
-            std::shared_ptr<FlatMaterial> material;
+namespace rt3{
 
-            Sphere(const Point3f& center, float r, const std::shared_ptr<FlatMaterial>& material);
-            virtual ~Sphere() override;
+class Sphere : public Shape{
+private:
+    real_type bhaskara(const Ray &r, real_type &A, real_type &B) const;
+    bool getT(const Ray &r, real_type &t) const;
+public:
+    Point3f center;
+    real_type radius;
+ 
+    Sphere(Point3f ori, real_type r): center(ori), radius(r) {}
 
-            virtual bool intersect(const Ray& r, Surfel* sf) const override;
-            virtual bool intersect_p(const Ray& r) const override; 
-            virtual const Color get_color() const override;
-        
-    };
+    ~Sphere(){}
+
+    bool intersect_p(const Ray &r) const override;
+    bool intersect(const Ray &r, shared_ptr<Surfel> &isect) const override;
+};
+
+
+Sphere *create_sphere(const ParamSet &ps);
+
 }
 
 #endif

@@ -4,7 +4,6 @@
 #include <chrono>
 #include <memory>
 #include "color.h"
-#include "material.h"
 
 namespace rt3 {
 
@@ -125,6 +124,22 @@ Camera* API::make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, u
 
   // Return the newly created camera.
   return cam;
+}
+
+Material * API::make_material( const ParamSet &ps_material)
+{
+    std::cout << ">>> Inside API::make_material()\n";
+    std::string type = retrieve(ps_material, "type", std::string{ "flat" });
+
+    Material *material = nullptr;
+    if(type == "flat"){
+        material = create_flat_material(ps_material);
+    } else {
+        RT3_ERROR("Uknown material type.");
+    }
+
+    // Return the newly created material
+    return material;
 }
 
 // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
@@ -276,29 +291,9 @@ void API::lookat(const ParamSet& ps) {
 
 void API::material(const ParamSet &ps) {
   std::cout << ">>> Inside API::material()\n";
-  std::vector<real_type> color = retrieve(ps, "color", std::vector<real_type>{ 0, 0, 0 });
-  std::cout << "Color parameter value: ";
-  // debug only
-    for (size_t i = 0; i < color.size(); ++i) {
-        std::cout << color[i];
-        if (i < color.size() - 1) {
-            std::cout << ", ";
-        }
-    }
-    std::cout << std::endl;
+  VERIFY_WORLD_BLOCK("API::material");
 
-    Color new_color (color[0], color[1], color[2]);
-
-    std::shared_ptr<Material> mat = std::make_shared<FlatMaterial>(new_color);
-
-    Color materialColor = mat->color();
-
-    std::cout << "Material Color (RGB): (" << materialColor.r << ", "
-              << materialColor.g << ", " << materialColor.b << ")" << std::endl;
-
-
-
-
+  shared_ptr<Material> new_material(make_material(ps));
 }
 
 }  // namespace rt3

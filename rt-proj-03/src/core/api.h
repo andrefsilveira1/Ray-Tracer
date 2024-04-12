@@ -7,6 +7,7 @@
 #include "rt3.h"
 #include "../cameras/orthographic.h"
 #include "../cameras/perspective.h"
+#include "../materials/flat.h"
 
 
 //=== API Macro definitions
@@ -100,7 +101,7 @@ private:
   static Film *make_film(const string &name, const ParamSet &ps);
   static Background *make_background(const string &name, const ParamSet &ps);
   static Camera *make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, unique_ptr<Film> &&the_film);
-
+  static Material *make_material( const ParamSet &ps_material);
 public:
   //=== API function begins here.
   static void init_engine(const RunningOptions &);

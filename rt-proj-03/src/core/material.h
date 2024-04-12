@@ -1,30 +1,18 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "color.h"
+#include "rt3-base.h"
 
-namespace rt3 {
+namespace rt3{
 
-class Material {
+class Material{
 public:
-    // Implement type ?
-
+    Material() = default;
     virtual ~Material() = default;
-    virtual Color color() const = 0;
-
 };
+    
+} // namespace rt3
 
-class FlatMaterial : public Material {
-    public:
-        FlatMaterial(const Color& color) : received_color(color) {}
 
-        Color color() const override {
-            return received_color;
-        }
 
-    private:
-        Color received_color;
-};
-}
-
-#endif // MATERIAL_H
+#endif

@@ -5,7 +5,6 @@
 
 namespace rt3 {
 
-
 class Surfel {
 public:
 	Surfel( const Point3f& p,const Vector3f& n, const Vector3f& wo, float time,

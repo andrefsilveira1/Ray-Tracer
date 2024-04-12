@@ -78,6 +78,9 @@ class Film;
 class Background;
 class BackgroundColor;
 class Camera;
+class Material;
+class Surfel;
+class Shape;
 
 //=== aliases
 using real_type = float;
