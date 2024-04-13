@@ -12,3 +12,5 @@ class Integrator {
 };
 
 }
+
+#endif // INTEGRATOR_H
