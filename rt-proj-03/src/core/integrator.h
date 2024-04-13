@@ -2,7 +2,7 @@
 #define INTEGRATOR_H
 
 #include "color.h"
-
+#include "scene.h"
 namespace rt3 {
 
 class Integrator {

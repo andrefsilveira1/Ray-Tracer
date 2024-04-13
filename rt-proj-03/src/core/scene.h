@@ -3,9 +3,10 @@
 
 #include "integrator.h"
 #include "camera.h"
+#include "background.h"
 
 namespace rt3 {
-    
+
 class Scene {
     //=== Public data
     public:
@@ -17,7 +18,8 @@ class Scene {
     //=== Public interface
     public:
         Scene( std::shared_ptr<Primitive> ag, std::unique_ptr< Background > bkg)
-             : background{bkg}, aggregate{ag}
+             : background{std::move(bkg)}, aggregate{ag}
+                        // I do not understand this, but it works...  ¯\_(ツ)_/¯
         {/* empty */}
         /// Determines the intersection info; return true if there is an intersection.
         bool intersect( const Ray& r, Surfel *isect ) const;
