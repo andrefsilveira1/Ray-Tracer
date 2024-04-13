@@ -12,7 +12,7 @@ public:
     virtual ~SamplerIntegrator() {}
 
     virtual Color Li(const Ray& ray, const Scene& scene) const = 0;
-    virtual void render(const Scene& scene) {}
+    // virtual void render(const Scene& scene) {}
     virtual void preprocess(const Scene& scene) {}
 
 protected:

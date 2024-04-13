@@ -8,7 +8,7 @@ namespace rt3 {
 class Integrator {
 	public:
 		virtual ~Integrator();
-		virtual void render( const Scene& scene ) =0;
+		// virtual void render( const Scene& scene ) =0; Is this necessary ?
 };
 
 }

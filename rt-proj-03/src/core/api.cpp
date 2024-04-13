@@ -135,7 +135,6 @@ Material * API::make_material(const ParamSet &ps_material)
 
     Material *material = nullptr;
     if(type == "flat"){
-      std::cout << ">>>> GOT <<<<<" << type << std::endl;
         material = create_flat_material(ps_material);
     } else {
         RT3_ERROR("Uknown material type.");
@@ -147,7 +146,11 @@ Material * API::make_material(const ParamSet &ps_material)
 
 Integrator * API::make_integrator(const ParamSet &ps_integrator) {
   std::cout << ">>> Inside API::make_integrator() \n";
+  std::string type = retrieve(ps_integrator, "type", std::string{ "flat" });
   Integrator *integrator = nullptr;
+  if(type == "flat") {
+    // integrator = how retrieve camera here ?
+  }
 
   return integrator;
 }
@@ -308,6 +311,8 @@ void API::material(const ParamSet &ps) {
 
 void API::integrator(const ParamSet &ps) {
   std::cout << ">>> Inside API::integrator()\n";
+
+  std::shared_ptr<Integrator> new_integrator(make_integrator(ps));
 }
 
 }  // namespace rt3
