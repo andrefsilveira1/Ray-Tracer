@@ -6,17 +6,11 @@
 
 namespace rt3 {
 
-class SamplerIntegrator : public Integrator {
+class FlatIntegrator : public Integrator {
 public:
-    SamplerIntegrator(std::shared_ptr<const Camera> cam) : camera(cam) {}
-    virtual ~SamplerIntegrator() {}
+    FlatIntegrator(std::shared_ptr<const Camera> cam) : FlatIntegrator(cam) {}
 
-    virtual Color Li(const Ray& ray, const Scene& scene) const = 0;
-    virtual void render(const Scene& scene) {}
-    virtual void preprocess(const Scene& scene) {}
-
-protected:
-    std::shared_ptr<const Camera> camera;
+    Color Li(const Ray& ray, const Scene& scene) const override;
 };
 
 } // namespace rt3
