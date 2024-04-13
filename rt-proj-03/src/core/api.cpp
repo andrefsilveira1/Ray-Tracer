@@ -299,4 +299,8 @@ void API::material(const ParamSet &ps) {
   std::shared_ptr<Material> new_material(make_material(ps));
 }
 
+void API::integrator(cosnt ParamSet &ps) {
+  std::cout << ">>> Inside API::integrator()\n";
+}
+
 }  // namespace rt3

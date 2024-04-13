@@ -144,6 +144,7 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
       API::material(ps);
     } else if (tag_name == "integrator") {
       std::cout << "INTEGRATOR GOT HERE" << std::endl;
+      API::integrator(ps);
     }
     // else RT3_WARNING( "Undefined tag `" + tag_name + "` found!" );
 

@@ -116,6 +116,7 @@ public:
   static void world_begin();
   static void world_end();
   static void material(const ParamSet &ps);
+  static void integrator(const ParamSet &ps);
 };
 } // namespace rt3
 
