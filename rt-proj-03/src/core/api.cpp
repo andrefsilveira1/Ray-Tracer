@@ -145,6 +145,13 @@ Material * API::make_material(const ParamSet &ps_material)
     return material;
 }
 
+Integrator * API::make_integrator(const ParamSet &ps_integrator) {
+  std::cout << ">>> Inside API::make_integrator() \n";
+  Integrator *integrator = nullptr;
+
+  return integrator;
+}
+
 // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
 // END OF THE AUXILIARY FUNCTIONS
 // =========================================================================

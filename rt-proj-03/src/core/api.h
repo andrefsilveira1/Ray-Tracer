@@ -102,7 +102,7 @@ private:
   static Background *make_background(const string &name, const ParamSet &ps);
   static Camera *make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, unique_ptr<Film> &&the_film);
   static Material *make_material( const ParamSet &ps_material);
-
+  static Integrator *make_integrator( const ParamSet &ps_integrator);
 public:
   //=== API function begins here.
   static void init_engine(const RunningOptions &);
