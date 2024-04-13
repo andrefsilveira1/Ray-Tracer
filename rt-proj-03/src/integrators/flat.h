@@ -1,5 +1,5 @@
-#ifndef SAMPLER_INTEGRATOR_H
-#define SAMPLER_INTEGRATOR_H
+#ifndef FLAT_INTEGRATOR_H
+#define FLAT_INTEGRATOR_H
 
 #include "integrator.h"
 #include "camera.h"
@@ -21,4 +21,4 @@ protected:
 
 } // namespace rt3
 
-#endif // SAMPLER_INTEGRATOR_H
+#endif // FLAT_INTEGRATOR_H
