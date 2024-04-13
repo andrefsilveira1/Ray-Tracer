@@ -1,8 +1,8 @@
 #ifndef FLAT_INTEGRATOR_H
 #define FLAT_INTEGRATOR_H
 
-#include "integrator.h"
-#include "camera.h"
+#include "../core/integrator.h"
+#include "../core/camera.h"
 
 namespace rt3 {
 

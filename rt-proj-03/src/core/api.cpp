@@ -306,7 +306,7 @@ void API::material(const ParamSet &ps) {
   std::shared_ptr<Material> new_material(make_material(ps));
 }
 
-void API::integrator(cosnt ParamSet &ps) {
+void API::integrator(const ParamSet &ps) {
   std::cout << ">>> Inside API::integrator()\n";
 }
 
