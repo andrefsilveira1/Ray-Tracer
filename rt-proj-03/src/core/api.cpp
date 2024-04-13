@@ -4,6 +4,7 @@
 #include <chrono>
 #include <memory>
 #include "color.h"
+#include "../materials/flat.h"
 
 namespace rt3 {
 
@@ -126,18 +127,20 @@ Camera* API::make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, u
   return cam;
 }
 
-Material * API::make_material( const ParamSet &ps_material)
+Material * API::make_material(const ParamSet &ps_material)
 {
     std::cout << ">>> Inside API::make_material()\n";
     std::string type = retrieve(ps_material, "type", std::string{ "flat" });
+    std::cout << ">>>> TYPE:" << type << std::endl;
 
     Material *material = nullptr;
     if(type == "flat"){
+      std::cout << ">>>> GOT <<<<<" << type << std::endl;
         material = create_flat_material(ps_material);
     } else {
         RT3_ERROR("Uknown material type.");
     }
-
+    std::cout << "RETURNED" << std::endl;
     // Return the newly created material
     return material;
 }
@@ -293,7 +296,7 @@ void API::material(const ParamSet &ps) {
   std::cout << ">>> Inside API::material()\n";
   VERIFY_WORLD_BLOCK("API::material");
 
-  shared_ptr<Material> new_material(make_material(ps));
+  std::shared_ptr<Material> new_material(make_material(ps));
 }
 
 }  // namespace rt3

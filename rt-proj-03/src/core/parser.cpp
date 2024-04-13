@@ -142,6 +142,8 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
       vector<std::pair<param_type_e, string>> param_list{ { param_type_e::ARR_REAL, "color" }};
       parse_parameters(p_element, param_list, /* out */ &ps);
       API::material(ps);
+    } else if (tag_name == "integrator") {
+      std::cout << "INTEGRATOR GOT HERE" << std::endl;
     }
     // else RT3_WARNING( "Undefined tag `" + tag_name + "` found!" );
 
