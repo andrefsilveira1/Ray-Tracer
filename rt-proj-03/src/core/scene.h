@@ -4,25 +4,24 @@
 #include "integrator.h"
 #include "camera.h"
 #include "background.h"
+#include "rt3.h"
+#include "background.h"
+#include "primitive.h"
 
 namespace rt3 {
-
 class Scene {
-    //=== Public data
     public:
         //std::vector<shared_ptr<Light>> lights; // list of lights
-        std::shared_ptr< Background > background; // The background object.
-    private:
-        std::shared_ptr<Primitive> aggregate; // The scene graph of objects, acceleration structure.
+        std::unique_ptr< Background > background; // The background object.
+        std::shared_ptr<Primitive> primitive; // The scene graph of objects, acceleration structure.
 
-    //=== Public interface
-    public:
-        Scene( std::shared_ptr<Primitive> ag, std::unique_ptr< Background > bkg)
-             : background{std::move(bkg)}, aggregate{ag}
-                        // I do not understand this, but it works...  ¯\_(ツ)_/¯
+        Scene( std::shared_ptr<Primitive> &&prim, std::unique_ptr< Background > &&bkg)
+             : background(std::move(bkg)), primitive(std::move(prim))
         {/* empty */}
+
+        ~Scene() = default;
         /// Determines the intersection info; return true if there is an intersection.
-        bool intersect( const Ray& r, Surfel *isect ) const;
+        bool intersect( const Ray& r, std::shared_ptr<Surfel> &isect) const;
         /*! A faster version that only determines whether there is an intersection or not;
          * it doesn't calculate the intersection info.
          */
@@ -32,3 +31,5 @@ class Scene {
 } // namespace rt3
 
 #endif // SCENE_H
+}
+

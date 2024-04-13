@@ -20,7 +20,7 @@ class AggregatePrimitive : public Primitive{
 public:
 	vector<std::shared_ptr<Primitive>> primitives;
 
-	AggregatePrimitive(vector<std::shared_ptr<Primitive>> &&prim) {}
+	AggregatePrimitive(vector<std::shared_ptr<Primitive>> &&prim) : primitives(std::move(prim)) {}
 
 	virtual ~AggregatePrimitive(){};
 };

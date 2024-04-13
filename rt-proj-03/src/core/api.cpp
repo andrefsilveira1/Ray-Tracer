@@ -205,8 +205,13 @@ void API::world_end() {
   // The scene has been properly set up and the scene has
   // already been parsed. It's time to render the scene.
 
-  // At this point, we have the background as a solitary pointer here.
-  // In the future, the background will be parte of the scene object.
+  std::unique_ptr<Scene> the_scene;
+  std::unique_ptr<Integrator> the_integrator;
+
+  vector<std::shared_ptr<Primitive>> primitives;
+
+    
+
   std::unique_ptr<Background> the_background{ make_background(render_opt->bkg_type,
                                                               render_opt->bkg_ps) };
   // Same with the film
