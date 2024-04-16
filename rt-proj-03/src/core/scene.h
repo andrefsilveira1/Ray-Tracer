@@ -1,12 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include "integrator.h"
+#include "camera.h"
+#include "background.h"
 #include "rt3.h"
 #include "background.h"
 #include "primitive.h"
 
 namespace rt3 {
-
 class Scene {
     public:
         //std::vector<shared_ptr<Light>> lights; // list of lights
@@ -26,6 +28,8 @@ class Scene {
         bool intersect_p( const Ray& r ) const;
 };
 
+} // namespace rt3
+
+#endif // SCENE_H
 }
 
-#endif
