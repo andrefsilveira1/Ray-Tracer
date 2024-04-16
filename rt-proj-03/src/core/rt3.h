@@ -81,6 +81,7 @@ class Camera;
 class Material;
 class Surfel;
 class Shape;
+class Scene;
 
 //=== aliases
 using real_type = float;
