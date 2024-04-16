@@ -31,5 +31,5 @@ class Scene {
 } // namespace rt3
 
 #endif // SCENE_H
-}
+
 

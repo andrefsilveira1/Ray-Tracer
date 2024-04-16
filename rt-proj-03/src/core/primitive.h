@@ -11,25 +11,30 @@ namespace rt3{
 
 class Primitive {
 public:
+	Primitive() = default;
 	virtual ~Primitive(){};
 	virtual bool intersect( const Ray& r, std::shared_ptr<Surfel> &isect ) const = 0;
 	virtual bool intersect_p( const Ray& r) const = 0;
 };
 
-class AggregatePrimitive : public Primitive{
+/*class AggregatePrimitive : public Primitive {
 public:
 	vector<std::shared_ptr<Primitive>> primitives;
 
-	AggregatePrimitive(vector<std::shared_ptr<Primitive>> &&prim) : primitives(std::move(prim)) {}
+	AggregatePrimitive(vector<std::shared_ptr<Primitive>> prim) : primitives(prim) {}
 
 	virtual ~AggregatePrimitive(){};
-};
+
+	virtual bool intersect( const Ray& r, std::shared_ptr<Surfel> &isect ) const = 0;
+	virtual bool intersect_p( const Ray& r) const = 0;
+};*/
 
 
-class PrimList : public AggregatePrimitive{
+class PrimList : public Primitive {
 public:
+	vector<std::shared_ptr<Primitive>> primitives;
 
-	PrimList(vector<std::shared_ptr<Primitive>> &&prim):AggregatePrimitive(std::move(prim)){}
+	PrimList(vector<std::shared_ptr<Primitive>> prim):primitives(prim){}
 
 	~PrimList(){};
 

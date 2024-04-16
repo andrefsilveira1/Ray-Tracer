@@ -5,11 +5,12 @@
 #include <memory>
 #include "color.h"
 #include "../materials/flat.h"
+#include "sphere.h"
 
 namespace rt3 {
 
 // ***** TEST OF THE PREVIOUS PROJECT ******
-
+/*
 struct Sphere {
   Point3f center;
   Sphere(real_type x, real_type y, real_type z) {
@@ -84,10 +85,13 @@ void render(Camera *camera, Background *bckg, RunningOptions &opt, vector<real_t
   camera->film->write_image();
 }
 
+*/
+
 //=== API's static members declaration and initialization.
 API::APIState API::curr_state = APIState::Uninitialized;
 RunningOptions API::curr_run_opt;
 std::unique_ptr<RenderOptions> API::render_opt;
+vector<std::pair<ParamSet, shared_ptr<Material>>> API::global_primitives;
 // GraphicsState API::curr_GS;
 
 // THESE FUNCTIONS ARE NEEDED ONLY IN THIS SOURCE FILE (NO HEADER NECESSARY)
@@ -144,15 +148,43 @@ Material * API::make_material(const ParamSet &ps_material)
     return material;
 }
 
-Integrator * API::make_integrator(const ParamSet &ps_integrator) {
+Integrator * API::make_integrator(const ParamSet &ps_integrator, unique_ptr<Camera> &&camera) {
   std::cout << ">>> Inside API::make_integrator() \n";
   std::string type = retrieve(ps_integrator, "type", std::string{ "flat" });
   Integrator *integrator = nullptr;
   if(type == "flat") {
-    // integrator = how retrieve camera here ?
+    //integrator = create_flat_integrator(ps_integrator, std::move(camera));
+  }else{
+    RT3_ERROR("Integrator type unknown.");
   }
 
   return integrator;
+}
+
+Shape * API::make_shape(const ParamSet &ps) {
+  string type = retrieve(ps, "type", std::string{"sphere"});
+  std::cout << ">>> Inside API::make_shape()\n";
+
+  Shape *shape = nullptr;
+
+  if(type == "sphere") {
+    //shape = create_sphere(ps);
+  } else {
+    RT3_ERROR("Unknown object type.");
+  }
+
+  return shape;
+}
+
+GeometricPrimitive * API::make_geometric_primitive(unique_ptr<Shape> &&shape, 
+                                                   shared_ptr<Material> material) {
+
+    std::cout << ">>> Inside API::make_geometric_primitive()\n";
+
+    return new GeometricPrimitive(
+        material,
+        std::move(shape)
+    );
 }
 
 // ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ
@@ -208,26 +240,39 @@ void API::world_end() {
   std::unique_ptr<Scene> the_scene;
   std::unique_ptr<Integrator> the_integrator;
 
-  vector<std::shared_ptr<Primitive>> primitives;
 
-    
-
+  // MAKING THE SCENE
   std::unique_ptr<Background> the_background{ make_background(render_opt->bkg_type,
                                                               render_opt->bkg_ps) };
-  // Same with the film
+
+  vector<std::shared_ptr<Primitive>> primitives;
+
+  for(auto [obj_ps, mat] : global_primitives) {
+    unique_ptr<Shape> shape(make_shape(obj_ps));
+
+    primitives.push_back(shared_ptr<Primitive>(make_geometric_primitive(std::move(shape), mat)));
+  }
+
+  unique_ptr<PrimList> prim_list = unique_ptr<PrimList>(new PrimList(std::move(primitives)));
+  
+  the_scene = make_unique<Scene>(std::move(prim_list), std::move(the_background));
+  // MADE THE SCENE
+
+  // MAKE THE INTEGRATOR -----------------------------------------------------------------------------------
   std::unique_ptr<Film> the_film{ 
                   make_film(render_opt->film_type, 
                             render_opt->film_ps) };
 
-  // Same with the camera
   std::unique_ptr<Camera> the_camera{ 
                   make_camera(render_opt->camera_ps, 
                               render_opt->lookat_ps, 
                               std::move(the_film)) };
 
+  the_integrator = unique_ptr<Integrator>(make_integrator(render_opt->integrator_ps, std::move(the_camera)));
+  // MADE THE INTEGRATOR -----------------------------------------------------------------------------------
 
   // Run only if we got film and background.
-  if (the_camera and the_background) {
+  if (the_integrator and the_scene) {
     RT3_MESSAGE("    Parsing scene successfuly done!\n");
     RT3_MESSAGE("[2] Starting ray tracing progress.\n");
 
@@ -243,7 +288,7 @@ void API::world_end() {
     auto start = std::chrono::steady_clock::now();
 
     std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
-    render(the_camera.get(), the_background.get(), curr_run_opt, cw);  // TODO: This is the ray tracer's  main loop.
+    the_integrator->render(the_scene);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end
@@ -317,7 +362,7 @@ void API::material(const ParamSet &ps) {
 void API::integrator(const ParamSet &ps) {
   std::cout << ">>> Inside API::integrator()\n";
 
-  std::shared_ptr<Integrator> new_integrator(make_integrator(ps));
+  std::shared_ptr<Integrator> new_integrator(make_integrator(ps, nullptr));
 }
 
 }  // namespace rt3

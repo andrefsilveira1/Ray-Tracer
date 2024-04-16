@@ -60,6 +60,9 @@ struct RenderOptions {
   /// the Bakcground
   string bkg_type{"solid"}; // "image", "interpolated"
   ParamSet bkg_ps;
+
+  /// the Integrator
+  ParamSet integrator_ps;
 };
 
 /// Collection of data related to a Graphics state, such as current material,
@@ -80,6 +83,7 @@ public:
 
   /// Stores the running options collect in main().
   static RunningOptions curr_run_opt;
+  static vector<std::pair<ParamSet, shared_ptr<Material>>> global_primitives;
 
 private:
   /// Current API state
@@ -105,7 +109,9 @@ private:
   static Background *make_background(const string &name, const ParamSet &ps);
   static Camera *make_camera(const ParamSet &ps_camera, const ParamSet &ps_lookat, unique_ptr<Film> &&the_film);
   static Material *make_material( const ParamSet &ps_material);
-  static Integrator *make_integrator( const ParamSet &ps_integrator);
+  static Integrator *make_integrator(const ParamSet &ps_integrator, unique_ptr<Camera> &&camera);
+  static Shape *make_shape(const ParamSet &ps);
+  static GeometricPrimitive *make_geometric_primitive(unique_ptr<Shape> &&shape, shared_ptr<Material> material);
 public:
   //=== API function begins here.
   static void init_engine(const RunningOptions &);

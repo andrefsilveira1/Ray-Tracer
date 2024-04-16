@@ -2,7 +2,7 @@
 
 namespace rt3 {
 
-bool PrimList::intersect(const Ray &r, shared_ptr<Surfel> &isect ) const {
+bool PrimList::intersect(const Ray &r, shared_ptr<Surfel> isect ) const {
     return false;
 }
 
@@ -17,7 +17,7 @@ bool GeometricPrimitive::intersect_p( const Ray& r ) const {
     return shape->intersect_p(r); 
 }
 
-bool GeometricPrimitive::intersect(const Ray &r, shared_ptr<Surfel> &isect ) const {
+bool GeometricPrimitive::intersect(const Ray &r, shared_ptr<Surfel> isect ) const {
     return false; 
 }
 
