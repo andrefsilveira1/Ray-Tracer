@@ -82,6 +82,9 @@ class Material;
 class Surfel;
 class Shape;
 class Scene;
+class GeometricPrimitive;
+class FlatIntegrator;
+class NormalIntegrator;
 
 //=== aliases
 using real_type = float;

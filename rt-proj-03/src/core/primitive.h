@@ -39,12 +39,13 @@ public:
 
 };
 
-class GeometricPrimitive : public Primitive{
+class GeometricPrimitive : public Primitive, public std::enable_shared_from_this<GeometricPrimitive>{
 public:
 	std::shared_ptr<Material> material;
 	std::unique_ptr<Shape> shape;
 
-	GeometricPrimitive(std::shared_ptr<Material> mat, std::unique_ptr<Shape> &&s) {}
+	GeometricPrimitive(std::shared_ptr<Material> mat, std::unique_ptr<Shape> &&s) : material(mat), 
+												shape(std::move(s)) {}
 
 	~GeometricPrimitive(){};
 

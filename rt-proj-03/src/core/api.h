@@ -5,6 +5,7 @@
 
 #include "paramset.h"
 #include "rt3.h"
+#include "camera.h"
 #include "../cameras/orthographic.h"
 #include "../cameras/perspective.h"
 #include "../materials/flat.h"

@@ -7,16 +7,14 @@ namespace rt3 {
 
 class FlatIntegrator : public SamplerIntegrator {
 public:
-    ~FlatIntegrator(){};
+    virtual ~FlatIntegrator(){};
 
     FlatIntegrator( unique_ptr<Camera> &&_camera ): SamplerIntegrator(std::move(_camera)) {}
 
-    Color Li(const Ray&, const unique_ptr<Scene>&, const Color) const override {return Color();};
+    std::optional<Color> Li(const Ray&, const unique_ptr<Scene>&) const override;
 };
 
-FlatIntegrator* create_flat_integrator(unique_ptr<Camera> &&camera){
-    return new FlatIntegrator(std::move(camera));
-}
+FlatIntegrator* create_flat_integrator(unique_ptr<Camera> &&camera);
 
 }
 

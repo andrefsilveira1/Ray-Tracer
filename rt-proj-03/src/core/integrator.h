@@ -21,7 +21,7 @@ public:
         camera = std::move(_camera);
     }
 
-    virtual Color Li(const Ray&, const unique_ptr<Scene>&, const Color) const = 0;
+    virtual std::optional<Color> Li(const Ray&, const unique_ptr<Scene>&) const = 0;
     virtual void render( const unique_ptr<Scene>& );
     // virtual void preprocess( const unique_ptr<Scene>& );
     

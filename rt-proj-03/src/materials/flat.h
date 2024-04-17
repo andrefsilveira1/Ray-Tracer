@@ -9,7 +9,7 @@ class FlatMaterial : public Material {
 public:
     Color color;
     FlatMaterial(Color c) : color(c) {}
-    Color getColor() const { return color; }
+    Color get_color() const { return color; }
 };
 
 FlatMaterial * create_flat_material( const ParamSet &ps );

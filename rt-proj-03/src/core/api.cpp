@@ -6,6 +6,7 @@
 #include "color.h"
 #include "../materials/flat.h"
 #include "../integrators/flat.h"
+#include "../integrators/normal_map.h"
 #include "../shapes/sphere.h"
 
 namespace rt3 {
@@ -156,8 +157,12 @@ Integrator * API::make_integrator(const ParamSet &ps_integrator, unique_ptr<Came
   std::string type = retrieve(ps_integrator, "type", std::string{ "flat" });
   Integrator *integrator = nullptr;
   if(type == "flat") {
+    std::cout << "fazendo flat integrator" << std::endl;
     integrator = create_flat_integrator(std::move(camera));
-  }else{
+  } else if(type == "normal_map") {
+    std::cout << "fazendo normal integrator" << std::endl;
+    integrator = create_normal_integrator(std::move(camera));
+  } else {
     RT3_ERROR("Integrator type unknown.");
   }
 
@@ -243,7 +248,6 @@ void API::world_end() {
   std::unique_ptr<Scene> the_scene;
   std::unique_ptr<Integrator> the_integrator;
 
-
   // MAKING THE SCENE
   std::unique_ptr<Background> the_background{ make_background(render_opt->bkg_type,
                                                               render_opt->bkg_ps) };
@@ -280,17 +284,17 @@ void API::world_end() {
     RT3_MESSAGE("[2] Starting ray tracing progress.\n");
 
     // Structure biding, c++17.
-    auto res = the_camera->film->get_resolution();
+    /*auto res = the_camera->film->get_resolution();
     size_t w = res[0];
     size_t h = res[1];
     RT3_MESSAGE("    Image dimensions in pixels (W x H): " + std::to_string(w) + " x "
-                + std::to_string(h) + ".\n");
+                + std::to_string(h) + ".\n");*/
     RT3_MESSAGE("    Ray tracing is usually a slow process, please be patient: \n");
 
     //================================================================================
     auto start = std::chrono::steady_clock::now();
 
-    std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
+    //std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
     the_integrator->render(the_scene);  // TODO: This is the ray tracer's  main loop.
     auto end = std::chrono::steady_clock::now();
     //================================================================================
