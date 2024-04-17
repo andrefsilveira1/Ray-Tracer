@@ -137,9 +137,28 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
       API::world_end();
       // std::clog << ">>> Leaving WorldBegin, at level " << level+1 <<
       // std::endl;
+    } else if(tag_name == "make_named_material") {
+      ParamSet ps;
+      vector<std::pair<param_type_e, string>> param_list{ 
+        { param_type_e::COLOR, "color" },
+        { param_type_e::STRING, "name" },
+        { param_type_e::STRING, "type" }
+      };
+      parse_parameters(p_element, param_list, /* out */ &ps);
+      API::make_named_material(ps);
+    } else if(tag_name == "named_material") {
+      ParamSet ps;
+      vector<std::pair<param_type_e, string>> param_list{ 
+        { param_type_e::STRING, "name" }
+      };
+      parse_parameters(p_element, param_list, /* out */ &ps);
+      API::named_material(ps);
     } else if (tag_name == "material") {
       ParamSet ps;
-      vector<std::pair<param_type_e, string>> param_list{ { param_type_e::ARR_REAL, "color" }};
+      vector<std::pair<param_type_e, string>> param_list{ 
+        { param_type_e::COLOR, "color" },
+        { param_type_e::STRING, "type" }
+      };
       parse_parameters(p_element, param_list, /* out */ &ps);
       API::material(ps);
     } else if (tag_name == "integrator") {
@@ -148,6 +167,15 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
       vector<std::pair<param_type_e, string>> param_list{ { param_type_e::STRING, "type" } };
       parse_parameters(p_element, param_list, /* out */ &ps);
       API::integrator(ps);
+    } else if(tag_name == "object") {
+      ParamSet ps;
+      vector<std::pair<param_type_e, string>> param_list{ 
+        { param_type_e::STRING, "type" },
+        { param_type_e::REAL, "radius" },
+        { param_type_e::POINT3F, "center" }
+      };
+      parse_parameters(p_element, param_list, /* out */ &ps);
+      API::object(ps);
     }
     // else RT3_WARNING( "Undefined tag `" + tag_name + "` found!" );
 

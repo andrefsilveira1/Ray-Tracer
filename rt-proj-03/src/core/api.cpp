@@ -92,6 +92,8 @@ API::APIState API::curr_state = APIState::Uninitialized;
 RunningOptions API::curr_run_opt;
 std::unique_ptr<RenderOptions> API::render_opt;
 vector<std::pair<ParamSet, shared_ptr<Material>>> API::global_primitives;
+shared_ptr<Material> API::curr_material;
+std::map<string, shared_ptr<Material>> API::named_materials;
 // GraphicsState API::curr_GS;
 
 // THESE FUNCTIONS ARE NEEDED ONLY IN THIS SOURCE FILE (NO HEADER NECESSARY)
@@ -352,17 +354,45 @@ void API::lookat(const ParamSet& ps) {
   render_opt->lookat_ps = ps;
 }
 
+void API::make_named_material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::make_named_material()\n";
+  VERIFY_SETUP_BLOCK("API::make_named_material");
+
+  string material_name = retrieve(ps, "name", string());
+
+  named_materials[material_name] = shared_ptr<Material>(make_material(ps));
+}
+
+void API::named_material(const ParamSet &ps) {
+  std::cout << ">>> Inside API::named_material()\n";
+  VERIFY_WORLD_BLOCK("API::named_material");
+
+  string material_name = retrieve(ps, "name", string());
+
+  curr_material = named_materials[material_name];
+}
+
 void API::material(const ParamSet &ps) {
   std::cout << ">>> Inside API::material()\n";
   VERIFY_WORLD_BLOCK("API::material");
 
   std::shared_ptr<Material> new_material(make_material(ps));
+
+  curr_material = new_material;
 }
 
 void API::integrator(const ParamSet &ps) {
   std::cout << ">>> Inside API::integrator()\n";
+  VERIFY_SETUP_BLOCK("API::integrator");
 
-  std::shared_ptr<Integrator> new_integrator(make_integrator(ps, nullptr));
+  render_opt->integrator_ps = ps;
+}
+
+void API::object( const ParamSet &ps ) {
+  std::cout << ">>> Inside API::object()\n";
+  VERIFY_WORLD_BLOCK("API::object");
+
+  global_primitives.push_back({ps, curr_material});
 }
 
 }  // namespace rt3

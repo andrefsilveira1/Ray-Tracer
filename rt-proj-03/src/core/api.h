@@ -84,6 +84,8 @@ public:
   /// Stores the running options collect in main().
   static RunningOptions curr_run_opt;
   static vector<std::pair<ParamSet, shared_ptr<Material>>> global_primitives;
+  static shared_ptr<Material> curr_material;
+  static std::map<string, shared_ptr<Material>> named_materials;
 
 private:
   /// Current API state
@@ -126,7 +128,10 @@ public:
   static void world_begin();
   static void world_end();
   static void material(const ParamSet &ps);
+  static void make_named_material(const ParamSet &ps);
+  static void named_material(const ParamSet &ps);
   static void integrator(const ParamSet &ps);
+  static void object(const ParamSet &ps);
 };
 } // namespace rt3
 
