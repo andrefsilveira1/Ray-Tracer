@@ -11,11 +11,13 @@ public:
 
     FlatIntegrator( unique_ptr<Camera> &&_camera ): SamplerIntegrator(std::move(_camera)) {}
 
-    Color Li(const Ray&, const unique_ptr<Scene>&, const Color) const override;
+    Color Li(const Ray&, const unique_ptr<Scene>&, const Color) const override {return Color();};
 };
 
-//FlatIntegrator* create_flat_integrator(const ParamSet &, unique_ptr<Camera> &&) {return nullptr;};
+FlatIntegrator* create_flat_integrator(unique_ptr<Camera> &&camera){
+    return new FlatIntegrator(std::move(camera));
+}
 
-};
+}
 
 #endif 

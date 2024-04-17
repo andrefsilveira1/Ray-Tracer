@@ -5,7 +5,8 @@
 #include <memory>
 #include "color.h"
 #include "../materials/flat.h"
-#include "sphere.h"
+#include "../integrators/flat.h"
+#include "../shapes/sphere.h"
 
 namespace rt3 {
 
@@ -155,7 +156,7 @@ Integrator * API::make_integrator(const ParamSet &ps_integrator, unique_ptr<Came
   std::string type = retrieve(ps_integrator, "type", std::string{ "flat" });
   Integrator *integrator = nullptr;
   if(type == "flat") {
-    //integrator = create_flat_integrator(ps_integrator, std::move(camera));
+    integrator = create_flat_integrator(std::move(camera));
   }else{
     RT3_ERROR("Integrator type unknown.");
   }
@@ -170,7 +171,7 @@ Shape * API::make_shape(const ParamSet &ps) {
   Shape *shape = nullptr;
 
   if(type == "sphere") {
-    //shape = create_sphere(ps);
+    shape = create_sphere(ps);
   } else {
     RT3_ERROR("Unknown object type.");
   }

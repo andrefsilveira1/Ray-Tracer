@@ -8,7 +8,6 @@
 #include "../cameras/orthographic.h"
 #include "../cameras/perspective.h"
 #include "../materials/flat.h"
-#include "../integrators/flat.h"
 #include "integrator.h"
 #include "scene.h"
 
