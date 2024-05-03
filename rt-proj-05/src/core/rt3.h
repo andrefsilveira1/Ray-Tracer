@@ -36,7 +36,7 @@ using std::tuple;
 # include <glm/ext/vector_int2.hpp>
 # include <glm/ext/vector_int3.hpp>
 
-#include "color.h"
+//#include "color.h"
 //#include "ray.h"
 
 //== Alias to the chosen data structure to implement a dictionary.
@@ -81,10 +81,11 @@ class Camera;
 class Material;
 class Surfel;
 class Shape;
-class Scene;
 class GeometricPrimitive;
 class FlatIntegrator;
 class NormalIntegrator;
+class Light;
+class Scene;
 
 //=== aliases
 using real_type = float;

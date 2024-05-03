@@ -1,12 +1,14 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "ray.h"
-#include "scene.h"
+#include "rt3.h"
+#include "rt3-base.h"
 #include "surfel.h"
+#include "scene.h"
 
-namespace rt3{
+namespace rt3 {
 // Verifica se há oclusão entre dois pontos de contato.
+
 class VisibilityTester {
 public:
     std::shared_ptr<Surfel> object_surfel, light_surfel;
@@ -17,7 +19,8 @@ public:
 
     bool unoccluded(const std::unique_ptr<Scene>& scene){
         Ray light_ray = Ray(light_surfel->p, light_surfel->wo);
-        return not scene->intersect_p(light_ray/* , light_surfel->t - EPS */);
+        return !scene->intersect_p(light_ray, light_surfel->time - 0.001);
+        //return false;
     }
 };
 

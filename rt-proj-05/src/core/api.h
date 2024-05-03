@@ -5,12 +5,28 @@
 
 #include "paramset.h"
 #include "rt3.h"
+#include "light.h"
+#include "scene.h"
 #include "camera.h"
+#include "integrator.h"
+#include "background.h"
+
+#include "color.h"
+
+#include "../materials/flat.h"
+#include "../materials/ping_pong.h"
+
+#include "../integrators/flat.h"
+#include "../integrators/normal_map.h"
+#include "../integrators/ping_pong.h"
+
 #include "../cameras/orthographic.h"
 #include "../cameras/perspective.h"
-#include "../materials/flat.h"
-#include "integrator.h"
-#include "scene.h"
+
+#include "../shapes/sphere.h"
+
+#include "../lights/ambient.h"
+#include "../lights/point.h"
 
 
 //=== API Macro definitions
@@ -86,6 +102,7 @@ public:
   static vector<std::pair<ParamSet, shared_ptr<Material>>> global_primitives;
   static shared_ptr<Material> curr_material;
   static std::map<string, shared_ptr<Material>> named_materials;
+  static vector<ParamSet> lights;
 
 private:
   /// Current API state
@@ -113,6 +130,7 @@ private:
   static Material *make_material( const ParamSet &ps_material);
   static Integrator *make_integrator(const ParamSet &ps_integrator, unique_ptr<Camera> &&camera);
   static Shape *make_shape(const ParamSet &ps);
+  static Light *make_light(const ParamSet &ps);
   static GeometricPrimitive *make_geometric_primitive(unique_ptr<Shape> &&shape, shared_ptr<Material> material);
 public:
   //=== API function begins here.
@@ -132,6 +150,7 @@ public:
   static void named_material(const ParamSet &ps);
   static void integrator(const ParamSet &ps);
   static void object(const ParamSet &ps);
+  static void light(const ParamSet &ps);
 };
 } // namespace rt3
 

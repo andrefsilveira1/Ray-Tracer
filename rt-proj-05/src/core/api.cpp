@@ -1,13 +1,7 @@
 #include "api.h"
-#include "background.h"
 
 #include <chrono>
 #include <memory>
-#include "color.h"
-#include "../materials/flat.h"
-#include "../integrators/flat.h"
-#include "../integrators/normal_map.h"
-#include "../shapes/sphere.h"
 
 namespace rt3 {
 
@@ -96,6 +90,8 @@ std::unique_ptr<RenderOptions> API::render_opt;
 vector<std::pair<ParamSet, shared_ptr<Material>>> API::global_primitives;
 shared_ptr<Material> API::curr_material;
 std::map<string, shared_ptr<Material>> API::named_materials;
+vector<ParamSet> API::lights;
+
 // GraphicsState API::curr_GS;
 
 // THESE FUNCTIONS ARE NEEDED ONLY IN THIS SOURCE FILE (NO HEADER NECESSARY)
@@ -144,6 +140,8 @@ Material * API::make_material(const ParamSet &ps_material)
     Material *material = nullptr;
     if(type == "flat"){
         material = create_flat_material(ps_material);
+    } else if(type == "blinn"){
+      material = create_ping_pong_material(ps_material);
     } else {
         RT3_ERROR("Uknown material type.");
     }
@@ -152,16 +150,32 @@ Material * API::make_material(const ParamSet &ps_material)
     return material;
 }
 
+Light * API::make_light( const ParamSet &ps_light ) {
+    std::cout << ">>> Inside API::make_light()\n";
+    Light* light = nullptr;
+
+    std::string type = retrieve(ps_light, "type", std::string{ "ambient" });
+    if(type == "ambient") { 
+        light = create_ambient_light(ps_light);
+    }else if(type == "point") {
+        light = create_point_light(ps_light);
+    }else{
+        RT3_ERROR("Light type unknown.");
+    }
+
+    return light;
+}
+
 Integrator * API::make_integrator(const ParamSet &ps_integrator, unique_ptr<Camera> &&camera) {
   std::cout << ">>> Inside API::make_integrator() \n";
   std::string type = retrieve(ps_integrator, "type", std::string{ "flat" });
   Integrator *integrator = nullptr;
   if(type == "flat") {
-    std::cout << "fazendo flat integrator" << std::endl;
     integrator = create_flat_integrator(std::move(camera));
   } else if(type == "normal_map") {
-    std::cout << "fazendo normal integrator" << std::endl;
     integrator = create_normal_integrator(std::move(camera));
+  } else if(type == "blinn_phong") {
+    integrator = create_ping_pong_integrator(ps_integrator, std::move(camera));
   } else {
     RT3_ERROR("Integrator type unknown.");
   }
@@ -262,7 +276,12 @@ void API::world_end() {
 
   unique_ptr<PrimList> prim_list = unique_ptr<PrimList>(new PrimList(std::move(primitives)));
   
-  the_scene = make_unique<Scene>(std::move(prim_list), std::move(the_background));
+  vector<shared_ptr<Light>> the_lights;
+  for (auto light_ps : lights) {
+    the_lights.push_back(shared_ptr<Light>(make_light(light_ps)));
+  }
+
+  the_scene = make_unique<Scene>(std::move(prim_list), std::move(the_background), std::move(the_lights));
   // MADE THE SCENE
 
   // MAKE THE INTEGRATOR -----------------------------------------------------------------------------------
@@ -361,7 +380,7 @@ void API::lookat(const ParamSet& ps) {
 
 void API::make_named_material(const ParamSet &ps) {
   std::cout << ">>> Inside API::make_named_material()\n";
-  VERIFY_SETUP_BLOCK("API::make_named_material");
+  VERIFY_WORLD_BLOCK("API::make_named_material");
 
   string material_name = retrieve(ps, "name", string());
 
@@ -398,6 +417,13 @@ void API::object( const ParamSet &ps ) {
   VERIFY_WORLD_BLOCK("API::object");
 
   global_primitives.push_back({ps, curr_material});
+}
+
+void API::light(const ParamSet &ps) {
+  std::cout << ">>> Inside API::light()\n";
+  VERIFY_WORLD_BLOCK("API::light");
+
+  lights.push_back(ps);
 }
 
 }  // namespace rt3

@@ -181,6 +181,22 @@ void parse_tags(tinyxml2::XMLElement* p_element, int level) {
     } else if(tag_name == "render_again") {
       API::world_begin();
       API::world_end();
+    } else if (tag_name == "light_source") {
+      ParamSet ps;
+
+      vector<std::pair<param_type_e, string>> param_list{
+          {param_type_e::STRING, "type"},
+          {param_type_e::COLOR, "L"},
+          {param_type_e::COLOR, "I"},
+          {param_type_e::VEC3F, "scale"},
+          {param_type_e::POINT3F, "from"},
+          {param_type_e::POINT3F, "to"},
+          {param_type_e::REAL, "cutoff"},
+          {param_type_e::REAL, "falloff"},
+      };
+      parse_parameters(p_element, param_list, &ps);
+
+      API::light(ps);
     }
     // else RT3_WARNING( "Undefined tag `" + tag_name + "` found!" );
 

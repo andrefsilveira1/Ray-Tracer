@@ -26,6 +26,7 @@ class Color {
         Color(real_type mr, real_type mg, real_type mb) : r(mr), g(mg), b(mb) {}
 
         Color operator * (const real_type t) const;
+        Color operator * (const Color &x) const;
         Color operator + (const Color c) const;
         real_type& operator [] (int index) {
             if(index == 0) return r;
