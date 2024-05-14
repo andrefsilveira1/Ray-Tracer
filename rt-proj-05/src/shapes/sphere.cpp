@@ -16,16 +16,18 @@ namespace rt3 {
                 (-B - (real_type)sqrt(delta)) / (2 * A),
                 (-B + (real_type)sqrt(delta)) / (2 * A),
             };
-            if(t[0] > t[1]) std::swap(t[0], t[1]);
+            real_type tmin = std::min(t[0], t[1]);
+            
+            if(tmin < 0) return false;
 
-            Point3f contact = r(t[0]);
+            Point3f contact = r(tmin);
             Vector3f normal = glm::normalize(contact - center);
 
             isect = shared_ptr<Surfel>(new Surfel(
                 contact,
                 normal,
                 -r.d,
-                t[0]
+                tmin
             ));
 
             return true;

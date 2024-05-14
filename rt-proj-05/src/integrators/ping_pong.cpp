@@ -50,13 +50,18 @@ optional<Color> PingPongIntegrator::recursiveLi(const Ray& ray, const unique_ptr
                     
                         color = color + specularContrib;
                     }
-                }
+                } /* else {
+                    color = {1, 1, 1};
+                }*/
             }
         }
 
         if(currRecurStep < max_depth){
             Vector3f newDir = glm::normalize((ray.d + (isect->n * (-2 * glm::dot(ray.d, isect->n)))));
-            color = color + material->mirror * recursiveLi(Ray(isect->p + newDir, newDir), scene, currRecurStep + 1).value();
+            optional<Color> mayb_color = recursiveLi(Ray(isect->p + newDir, newDir), scene, currRecurStep + 1);
+            if(mayb_color.has_value()) {
+                color = color + material->mirror * mayb_color.value();
+            } 
         }
 
         return color;
