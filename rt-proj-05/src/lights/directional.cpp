@@ -2,11 +2,8 @@
 
 namespace rt3 {
 
-    DirectionalLight::DirectionalLight(const Color& c, const Vector3f& scl) : Light(c, scl) {}
-    void DirectionalLight::preprocess(const Scene&) {}
-
-    DirectionalLight* create_directional_light(const ParamSet& ps) {
-    return new DirectionalLight(retrieve(ps, "L", Color()), retrieve(ps, "scale", Vector3f()));
+    DirectionalLight* create_directional_light(const ParamSet &ps) {
+        return new DirectionalLight(retrieve(ps, "L", Color()), retrieve(ps, "scale", Vector3f()));
     }
 
     Vector3f DirectionalLight::normalize_light(const Vector3f &scl) {
