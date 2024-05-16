@@ -9,10 +9,10 @@ class DirectionalLight : public Light{
 public:
   DirectionalLight(const Color &c, const Vector3f &scl):Light(c, scl){};
   virtual void preprocess( const Scene & ){}; // Is this necessary ?
+  Vector3f normalize_light(const Vector3f &scl);
 };
 
 DirectionalLight* create_directional_light( const ParamSet &ps );
-DirectionalLight* normalize_light(const Vector3f &scl);
 
 }
 
