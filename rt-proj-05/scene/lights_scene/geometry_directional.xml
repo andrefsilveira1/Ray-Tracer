@@ -7,7 +7,7 @@
 
         <!-- Lights -->
         <light_source type="directional" L="0.9 0.9 0.9" scale="1 1 1" from="1 0.8 -1" to="0 0 1" />
-        <!-- <light_source type="directional" L="0.4 0.4 0.4" scale="1 1 1" from="-1 0.2 0.5" to="0 0 1" /> -->
+        <light_source type="directional" L="0.4 0.4 0.4" scale="1 1 1" from="-1 0.2 0.5" to="0 0 1" />
 
         <!-- Material Library -->
         <include filename="scene/lights_scene/materials.xml" />
