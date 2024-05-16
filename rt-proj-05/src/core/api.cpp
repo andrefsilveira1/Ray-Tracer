@@ -159,7 +159,14 @@ Light * API::make_light( const ParamSet &ps_light ) {
         light = create_ambient_light(ps_light);
     }else if(type == "point") {
         light = create_point_light(ps_light);
-    }else{
+
+    }else if (type == "directional") {
+        std::cout << "DIRECTIONAL ==>> BEFORE"  << std::endl;
+        light = create_directional_light(ps_light);
+        std::cout << "DIRECTIONAL ==>> AFTER"  << std::endl;
+        std::cout << "LIGHT ==>> AFTER"  << std::endl;
+    }
+    else{
         RT3_ERROR("Light type unknown.");
     }
 
@@ -315,6 +322,8 @@ void API::world_end() {
 
     //std::vector<real_type> cw = retrieve(render_opt->film_ps, "crop_window", std::vector<real_type>{ 0, 1, 0, 1 });
     the_integrator->render(the_scene);  // TODO: This is the ray tracer's  main loop.
+    std::cout << "BROKE ? >>" << std::endl;
+
     auto end = std::chrono::steady_clock::now();
     //================================================================================
     auto diff = end - start;  // Store the time difference between start and end

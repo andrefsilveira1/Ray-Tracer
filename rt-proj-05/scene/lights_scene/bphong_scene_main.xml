@@ -4,8 +4,8 @@
     <integrator type="blinn_phong" depth="2" />
     <!-- <integrator type="normal_map" /> -->
 
-    <!-- <film type="image" x_res="800" y_res="600" filename="directional.png" img_type="png" gamma_corrected="no" />
-    <include filename="../scenes/projects_references/proj_05_blinn_phong/lights_scene/geometry_directional.xml" /> -->
+    <film type="image" x_res="800" y_res="600" filename="directional.png" img_type="png" gamma_corrected="no" />
+    <include filename="scene/lights_scene/geometry_directional.xml" />
 
     <film type="image" x_res="800" y_res="600" filename="images/point.png" img_type="png" gamma_corrected="no" />
     <include filename="scene/lights_scene/geometry_point.xml" />
