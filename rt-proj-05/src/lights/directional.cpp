@@ -3,8 +3,7 @@
 namespace rt3 {
 
 tuple<Color, Vector3f, unique_ptr<VisibilityTester>> DirectionalLight::sample_Li(const shared_ptr<Surfel>& hit) {
-    Vector3f lightDirection = to - from; // Calculate the light dir. Should I put this as negative ?
-    lightDirection = glm::normalize(lightDirection);
+    Vector3f lightDirection = glm::normalize(lightDir);
 
     shared_ptr<Surfel> lightSurfel = make_shared<Surfel>(
         to, 
@@ -20,16 +19,19 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> DirectionalLight::sample_Li
 }
 
 DirectionalLight* create_directional_light(const ParamSet& ps) {
+    Point3f from = retrieve(ps, "from", Point3f());
+    Point3f to = retrieve(ps, "to", Point3f());
+
     return new DirectionalLight(
         retrieve(ps, "L", Color()),
         retrieve(ps, "scale", Vector3f()),
-        retrieve(ps, "from", Point3f()),
-        retrieve(ps, "to", Point3f())
+        normalize(to - from),
+        to
     );
 }
 
-Vector3f DirectionalLight::normalize_light(const Vector3f& scl) {
-    return glm::normalize(-scl); // Maybe should replace the normalize lightDirection from sample_Li
+Vector3f DirectionalLight::normalize_light(const Vector3f& d) {
+    return glm::normalize(-d); // Maybe should replace the normalize lightDirection from sample_Li
 }
 
 } // namespace rt3
