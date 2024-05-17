@@ -1,12 +1,14 @@
 #include "directional.h"
+#include "hit.h"
 
 namespace rt3 {
 
 tuple<Color, Vector3f, unique_ptr<VisibilityTester>> DirectionalLight::sample_Li(const shared_ptr<Surfel>& hit) {
     Vector3f lightDirection = glm::normalize(lightDir);
-
+    Ray source(hit->p, -lightDirection);
+    Point3f o = {0,0,0};
     shared_ptr<Surfel> lightSurfel = make_shared<Surfel>(
-        to, 
+        from, 
         Vector3f(),
         lightDirection,
         std::numeric_limits<float>::infinity() // This really should be infinity or from light source ?
@@ -26,7 +28,7 @@ DirectionalLight* create_directional_light(const ParamSet& ps) {
         retrieve(ps, "L", Color()),
         retrieve(ps, "scale", Vector3f()),
         normalize(to - from),
-        to
+        from
     );
 }
 
