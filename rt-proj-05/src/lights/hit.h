@@ -14,7 +14,7 @@ public:
     DirectionalHit() : low(Point3f(std::numeric_limits<float>::infinity())), high(Point3f(-std::numeric_limits<float>::infinity())) {}
     DirectionalHit(const Point3f& l, const Point3f& h) : low(l), high(h) {}
 
-    bool intersect(const Ray& r, float *t_hit, Surfel *sf) const {
+    bool intersect(const Ray& r, float *t_hit, shared_ptr<Surfel> *sf) const {
         float t_min = (low.x - r.o.x) / r.d.x;
         float t_max = (high.x - r.o.x) / r.d.x;
         if (t_min > t_max) std::swap(t_min, t_max);
@@ -44,13 +44,14 @@ public:
             t_max = tz_max;
 
         *t_hit = t_min;
-        sf->p = r(t_min);
+        *sf = std::make_shared<Surfel>(r(t_min), Vector3f(), Vector3f(), 0.0f);
+        // sf->p = r(t_min); Why this does not worked ?
         return true;
     }
 
     bool intersect_p(const Ray& r) const {
         float t;
-        Surfel sf;
+        shared_ptr<Surfel> sf;
         return intersect(r, &t, &sf);
     }
 };

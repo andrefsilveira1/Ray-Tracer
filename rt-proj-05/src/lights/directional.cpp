@@ -6,9 +6,16 @@ namespace rt3 {
 tuple<Color, Vector3f, unique_ptr<VisibilityTester>> DirectionalLight::sample_Li(const shared_ptr<Surfel>& hit) {
     Vector3f lightDirection = glm::normalize(lightDir);
     Ray source(hit->p, -lightDirection);
-    Point3f o = {0,0,0};
+    float hit_point;
+    shared_ptr<Surfel> surface;
+
+    if(!bounds.intersect(source, &hit_point, &surface)) {
+        std::cout << "DID NOT HIT ==>> MISSED" << std::endl;
+        return std::make_tuple(Color(), Vector3f(), nullptr);
+    }
+
     shared_ptr<Surfel> lightSurfel = make_shared<Surfel>(
-        from, 
+        surface->p, 
         Vector3f(),
         lightDirection,
         std::numeric_limits<float>::infinity() // This really should be infinity or from light source ?
