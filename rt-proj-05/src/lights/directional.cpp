@@ -10,7 +10,7 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> DirectionalLight::sample_Li
         to, 
         Vector3f(),
         lightDirection,
-        std::numeric_limits<float>::infinity() // This really should be infinity or from light source
+        std::numeric_limits<float>::infinity() // This really should be infinity or from light source ?
     );
 
     unique_ptr<VisibilityTester> visTester = std::make_unique<VisibilityTester>(hit, lightSurfel);

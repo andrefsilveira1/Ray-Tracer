@@ -7,9 +7,9 @@ namespace rt3 {
 
 class DirectionalLight : public LightLi {
 public:
-  Point3f from, to;
-  DirectionalLight(const Color& c, const Vector3f& scl, const Point3f& from, const Point3f& to)
-      : LightLi(c, scl), from(from), to(to){};
+  Vector3f lightDir;
+  DirectionalLight(const Color& c, const Vector3f& scl, const Vector3f& direction)
+      : LightLi(c, scl), lightDir(direction){};
   virtual void preprocess(const Scene&) {};
   Vector3f normalize_light(const Vector3f& scl);
   tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
