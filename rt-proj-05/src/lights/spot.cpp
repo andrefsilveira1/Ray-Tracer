@@ -26,14 +26,18 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> SpotLight::sample_Li(
   }
 }
 
-DirectionalLight* create_spot_light(const ParamSet& ps) {
-  Point3f from = retrieve(ps, "from", Point3f());
-  Point3f to = retrieve(ps, "to", Point3f());
+SpotLight* create_spot_light(const ParamSet& ps) {
+    Point3f from = retrieve(ps, "from", Point3f());
+    Point3f to = retrieve(ps, "to", Point3f());
 
-  return new DirectionalLight(
-    retrieve(ps, "L", Color()), retrieve(ps, "scale", Vector3f()), normalize(to - from), from);
+    return new SpotLight(
+        retrieve(ps, "I", Color()), 
+        retrieve(ps, "scale", Vector3f()), 
+        from,
+        normalize(to - from), 
+        retrieve(ps, "cutoff", real_type()),
+        retrieve(ps, "falloff", real_type())
+    );
 }
-
-Vector3f DirectionalLight::normalize_light(const Vector3f& d) { return glm::normalize(-d); }
 
 }  // namespace rt3
