@@ -13,6 +13,10 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> SpotLight::sample_Li(
 
   if (t > cutoff) {
     Color intensity = color_int * vectorToColor(scale);
+    if (t < falloff) {
+        float smothCriminal = (t - falloff) / (cutoff - falloff); // forgive me about this joke
+        intensity = intensity * smothCriminal;
+    }
     auto visTester = std::make_unique<VisibilityTester>(
       hit, std::make_shared<Surfel>(Surfel{ pos, Vector3f(0, 0, 0), Vector3f(0, 0, 0), 0.0f }));
     return std::make_tuple(intensity, lightDir, std::move(visTester));
