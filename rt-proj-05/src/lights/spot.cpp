@@ -14,11 +14,11 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> SpotLight::sample_Li(
   if (t > cutoff) {
     Color intensity = color_int * vectorToColor(scale);
     auto visTester = std::make_unique<VisibilityTester>(
-      hit, std::make_shared<Surfel>(Surfel{ pos, Vector3f(0, 0, 0) }));
-    return make_tuple(intensity, lightDir, std::move(visTester));
+      hit, std::make_shared<Surfel>(Surfel{ pos, Vector3f(0, 0, 0), Vector3f(0, 0, 0), 0.0f }));
+    return std::make_tuple(intensity, lightDir, std::move(visTester));
   } else {
     Color ambientIndex = color_int * 0.1f;
-    return make_tuple(ambientIndex, lightDir, nullptr);
+    return std::make_tuple(ambientIndex, lightDir, nullptr);
   }
 }
 
@@ -30,8 +30,6 @@ DirectionalLight* create_spot_light(const ParamSet& ps) {
     retrieve(ps, "L", Color()), retrieve(ps, "scale", Vector3f()), normalize(to - from), from);
 }
 
-Vector3f DirectionalLight::normalize_light(const Vector3f& d) {
-  return glm::normalize(-d);
-}
+Vector3f DirectionalLight::normalize_light(const Vector3f& d) { return glm::normalize(-d); }
 
 }  // namespace rt3
