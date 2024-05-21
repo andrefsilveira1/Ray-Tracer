@@ -12,11 +12,18 @@ public:
   Vector3f dir;
   real_type cutoff;
 
-  virtual void preprocess(const Scene&) override {}
+  SpotLight(const Color& c,
+            const Vector3f& scl,
+            const Point3f& pos,
+            const Vector3f& dir,
+            float angle)
+      : LightLi(c, scl), pos(pos), dir(normalize(dir)), cutoff(std::cos(angle)) {}
 
-  Vector3f normalize_light(const Vector3f& dir) {
-    return normalize(-dir);
-  }
+  virtual void preprocess(const Scene&) override {}
+  tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
+    const shared_ptr<Surfel>& hit) override {}
+  Vector3f normalize_light(const Vector3f& dir) {}
+  SpotLight* create_spot_light(const ParamSet& ps) {}
 };
 
 };  // namespace rt3
