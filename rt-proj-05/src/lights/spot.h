@@ -10,14 +10,15 @@ class SpotLight : public LightLi {
 public:
   Point3f pos;
   Vector3f dir;
-  real_type cutoff;
+  real_type cutoff, falloff; // I considered that this will arrive as radians 
 
   SpotLight(const Color& c,
             const Vector3f& scl,
             const Point3f& pos,
             const Vector3f& dir,
-            float angle)
-      : LightLi(c, scl), pos(pos), dir(normalize(dir)), cutoff(std::cos(angle)) {}
+            real_type angle,
+            real_type falloff)
+      : LightLi(c, scl), pos(pos), dir(normalize(dir)), cutoff(angle), falloff(falloff) {}
 
   virtual void preprocess(const Scene&) override {}
   tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
