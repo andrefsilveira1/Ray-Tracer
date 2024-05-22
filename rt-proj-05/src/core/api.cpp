@@ -161,10 +161,11 @@ Light * API::make_light( const ParamSet &ps_light ) {
         light = create_point_light(ps_light);
 
     }else if (type == "directional") {
-        std::cout << "DIRECTIONAL ==>> BEFORE"  << std::endl;
         light = create_directional_light(ps_light);
-        std::cout << "DIRECTIONAL ==>> AFTER"  << std::endl;
-        std::cout << "LIGHT ==>> AFTER"  << std::endl;
+    } else if (type == "spot") {
+      std::cout << "SPOT ==>>" << std::endl;
+        light = create_point_light(ps_light);
+
     }
     else{
         RT3_ERROR("Light type unknown.");

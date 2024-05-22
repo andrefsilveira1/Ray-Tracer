@@ -21,11 +21,11 @@ public:
       : LightLi(c, scl), pos(pos), dir(normalize(dir)), cutoff(angle), falloff(falloff) {}
 
   virtual void preprocess(const Scene&) override {}
-  tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
-    const shared_ptr<Surfel>& hit) override {}
-  Vector3f normalize_light(const Vector3f& dir) {}
-  SpotLight* create_spot_light(const ParamSet& ps) {}
-  Color scaleColor(const Vector3f& vec) {}
+  virtual tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
+    const shared_ptr<Surfel>& hit) override;
+  Vector3f normalize_light(const Vector3f& dir);
+  SpotLight* create_spot_light(const ParamSet& ps);
+  Color scaleColor(const Vector3f& vec);
 };
 
 };  // namespace rt3
