@@ -24,9 +24,9 @@ public:
   virtual tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
     const shared_ptr<Surfel>& hit) override;
   Vector3f normalize_light(const Vector3f& dir);
-  SpotLight* create_spot_light(const ParamSet& ps);
   Color scaleColor(const Vector3f& vec);
 };
+  SpotLight* create_spot_light(const ParamSet& ps);
 
 };  // namespace rt3
 
