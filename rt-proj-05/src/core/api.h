@@ -27,6 +27,7 @@
 
 #include "../lights/ambient.h"
 #include "../lights/point.h"
+#include "../lights/directional.h"
 
 
 //=== API Macro definitions
