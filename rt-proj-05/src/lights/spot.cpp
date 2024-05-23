@@ -27,16 +27,23 @@ tuple<Color, Vector3f, unique_ptr<VisibilityTester>> SpotLight::sample_Li(
 }
 
 SpotLight* create_spot_light(const ParamSet& ps) {
-    Point3f from = retrieve(ps, "from", Point3f());
-    Point3f to = retrieve(ps, "to", Point3f());
+    Point3f from = retrieve(ps, "from", Point3f{0, 0, 0});
+    Point3f to = retrieve(ps, "to", Point3f{1, 1, 1});
+    Vector3f dir = normalize(to - from);
+    Color I = retrieve(ps, "I", Color{0.5, 0.5, 0.5});
+    Vector3f scale = retrieve(ps, "scale", Vector3f{0, 0, 0});
+    real_type cutoff = Radians(retrieve(ps, "cutoff", 30.F));
+    real_type falloff = Radians(retrieve(ps, "falloff", 15.F));
+
+    std::cout << "inside spot light ===>>" << std::endl;
 
     return new SpotLight(
-        retrieve(ps, "I", Color()), 
-        retrieve(ps, "scale", Vector3f()), 
+        I,
+        scale,
         from,
-        normalize(to - from), 
-        retrieve(ps, "cutoff", real_type()),
-        retrieve(ps, "falloff", real_type())
+        dir, 
+        cutoff,
+        falloff
     );
 }
 

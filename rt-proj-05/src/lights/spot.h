@@ -16,9 +16,9 @@ public:
             const Vector3f& scl,
             const Point3f& pos,
             const Vector3f& dir,
-            real_type angle,
-            real_type falloff)
-      : LightLi(c, scl), pos(pos), dir(normalize(dir)), cutoff(angle), falloff(falloff) {}
+            const real_type& cutoff,
+            const real_type& falloff)
+      : LightLi(c, scl), pos(pos), dir(dir), cutoff(cutoff), falloff(falloff) {};
 
   virtual void preprocess(const Scene&) override {}
   virtual tuple<Color, Vector3f, unique_ptr<VisibilityTester>> sample_Li(
